@@ -1,0 +1,52 @@
+body {
+    padding-top: 40px;
+}
+
+input.ht-time {
+    margin-left: 5px;
+    width: 40px; /* overwrites twitter responsive design for mobile browsers */
+    display: inline; /* overwrites twitter responsive design for mobile browsers */
+}
+
+input.ht-date {
+    margin-left: 5px;
+    width: 70px; /* overwrites twitter responsive design for mobile browsers */
+    display: inline; /* overwrites twitter responsive design for mobile browsers */
+}
+
+input.ht-date-from {
+    margin-right: 5px;
+}
+
+input.error {
+    border-color: #B94A48;
+    color: #B94A48;
+}
+
+a.ht-interval-btn {
+    width: 10px;
+    margin-left: 5px;
+}
+
+form#ht-weekly-form .controls {
+    margin-left: 240px;
+}
+
+form#ht-weekly-form .control-label {
+    width: 220px;
+    padding-top: 0px;
+    margin-bottom: 5px;
+}
+
+form#ht-weekly-form .control-group {
+    padding-top: 5px;
+    margin-bottom: 5px;
+}
+
+form#ht-weekly-form  .control-group:nth-child(odd) {
+    background-color: #F5F5F5;
+}
+
+form#ht-weekly-form .ht-interval {
+    margin-bottom: 5px;
+}
