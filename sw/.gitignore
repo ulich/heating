@@ -8,3 +8,5 @@ build.xml
 .idea/*
 *.sublime-project
 *.sublime-workspace
+build
+heating.tar.gz

@@ -27,7 +27,7 @@ angular.module('myApp', [
         $routeProvider.when('/config', {template: configTpl, controller: 'ConfigController'});
         $routeProvider.otherwise({redirectTo: '/main'});
 
-        function DataInterceptor($q, $log) {
+        var DataInterceptor = ['$q', '$log', function($q, $log) {
             function success(response) {
                 if (response.data && typeof(response.data) === "object") {
                     if (response.data.success) {
@@ -46,7 +46,7 @@ angular.module('myApp', [
             return function(promise) {
                 return promise.then(success, error);
             };
-        }
+        }];
 
         $httpProvider.responseInterceptors.push(DataInterceptor);
 }]);

@@ -3,7 +3,10 @@ define(['exports'], function(exports) {
 
 var appControllers = angular.module('myApp.controllers', []);
 
-exports.TemplateController = appControllers.controller('TemplateController', ['$scope', '$location', function($scope, $location) {
+exports.TemplateController = appControllers.controller('TemplateController',
+    [       '$scope', '$location',
+    function($scope,   $location)
+{
     $scope.changeView = function(view) {
         $location.path(view);
     };
@@ -15,7 +18,10 @@ exports.TemplateController = appControllers.controller('TemplateController', ['$
 
 
 
-exports.MainController = appControllers.controller('MainController', ['$scope', 'Config', function ($scope, Config) {
+exports.MainController = appControllers.controller('MainController',
+    [        '$scope', 'Config',
+    function ($scope,   Config)
+{
     $scope.enabled = true;
     $scope.config = Config.defaults();
     $scope.loading = true;
@@ -61,8 +67,10 @@ exports.MainController = appControllers.controller('MainController', ['$scope', 
 
 
 
-exports.ConfigController = appControllers.controller('ConfigController', ['$scope', '$window', '$location', 'Config',
-                function($scope,   $window,   $location,   Config) {
+exports.ConfigController = appControllers.controller('ConfigController',
+    [       '$scope', '$window', '$location', 'Config',
+    function($scope,   $window,   $location,   Config)
+{
     $scope.intervalPattern = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
     $scope.confirmClose = true;
     $scope.loading = true;
@@ -162,10 +170,6 @@ exports.ConfigController = appControllers.controller('ConfigController', ['$scop
             }
         }
     });
-
-    // $window.onbeforeunload = function() {
-    //     return "Es exisitieren noch ungespeicherte Änderungen";
-    // };
 
     $scope.cancel = function() {
         $scope.confirmClose = false;

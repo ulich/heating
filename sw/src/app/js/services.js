@@ -5,8 +5,12 @@ var appServices = angular.module('myApp.services', []);
 
 appServices.value('version', '0.1');
 
-appServices.factory('Config', ['$http', '$q', function($http, $q) {
-    var url = 'http://localhost:8001/heizung/api.lua';
+appServices.factory('Config',
+    [       '$http', '$q',
+    function($http,   $q)
+{
+    //var url = 'http://localhost:8001/heizung/server/api.lua';
+    var url = 'api.lua';
     var cache;
     return {
         defaults: function() {

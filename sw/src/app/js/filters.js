@@ -5,19 +5,22 @@
 
 var appFilters = angular.module('myApp.filters', []);
 
-appFilters.filter('app.heatingEnabledPast', function() {
+appFilters.filter('app.heatingEnabledPast', function()
+{
     return function (enabled) {
         return 'Die Heizung wurde ' + (enabled ? 'ein' : 'aus') + 'geschaltet.';
     };
 });
 
-appFilters.filter('app.heatingEnabledFuture', function() {
+appFilters.filter('app.heatingEnabledFuture', function()
+{
     return function (enabled) {
         return 'Die Heizung wird ' + (enabled ? 'ein' : 'aus') + 'geschaltet.';
     };
 });
 
-appFilters.filter('app.weekday', function() {
+appFilters.filter('app.weekday', function()
+{
     return function (index) {
         switch (index) {
             case 0: return 'Sonntag';
@@ -32,7 +35,10 @@ appFilters.filter('app.weekday', function() {
     };
 });
 
-appFilters.filter('interpolate', ['version', function(version) {
+appFilters.filter('interpolate',
+    [       'version',
+    function(version)
+{
     return function(text) {
         return String(text).replace(/\%VERSION\%/mg, version);
     };

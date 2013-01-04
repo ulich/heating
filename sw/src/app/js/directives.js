@@ -4,7 +4,9 @@
 /* Directives */
 
 var bootstrapDirectives = angular.module('bootstrap.directives', []);
-bootstrapDirectives.directive('bsActive', function() {
+bootstrapDirectives.directive('bsActive',
+    function()
+{
     return function(scope, elm, attrs) {
         scope.$watch(attrs.bsActive, function(value) {
             if (value) {
@@ -18,7 +20,10 @@ bootstrapDirectives.directive('bsActive', function() {
 });
 
 var appDirectives = angular.module('myApp.directives', []);
-appDirectives.directive('appDate', ['dateFilter', '$locale', function(dateFilter, $locale) {
+appDirectives.directive('appDate',
+    [       'dateFilter', '$locale',
+    function(dateFilter,  $locale)
+{
     function parseDate(string) {
         var regex = /^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[012])\.(\d{4}) ([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)$/;
         var matches = string.match(regex);
@@ -57,7 +62,10 @@ appDirectives.directive('appDate', ['dateFilter', '$locale', function(dateFilter
     };
 }]);
 
-appDirectives.directive('appVersion', ['version', function(version) {
+appDirectives.directive('appVersion',
+    [       'version',
+    function(version)
+{
     return function(scope, elm, attrs) {
         elm.text(version);
     };
