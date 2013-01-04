@@ -1,0 +1,47 @@
+<div ng-show="loading">
+    Lade Daten...
+</div>
+<form class="form-horizontal app-weekly-set" ng-show="!loading">
+    <ul class="nav nav-tabs">
+        <li ng-repeat="set in config.weekly.sets" bs-active="set == currentWeeklySet">
+            <a onclick="return false" ng-click="setCurrentWeeklySet(set)">
+                {{set.name}}
+                <span ng-show="$index == config.weekly.activeSet"> (aktiv)</span>
+                <span ng-show="set == currentWeeklySet" ng-click="deleteWeeklySet(currentWeeklySet)" class="app-tab-controls" title="Konfiguration löschen">&#x2718;</span>
+            </a>
+        </li>
+        <li><a ng-click="addWeeklySet()" title="Neue Konfiguration">&#x271a;</a></li>
+    </ul>
+    <div class="tab-content" ng-show="currentWeeklySet != null">
+        <div class="tab-pane active">
+            <div class="control-group">
+                <label class="control-label">Name:</label>
+                <div class="controls">
+                    <input type="text" ng-model="currentWeeklySet.name" />
+                </div>
+            </div>
+            <div class="app-horizontal-line-dotted"></div>
+            <div class="control-group" ng-repeat="intervals in currentWeeklySet.weekdays">
+                <label class="control-label">{{ $index | app.weekday }}:</label>
+                <div class="controls">
+                    <div ng-repeat="interval in intervals" class="app-interval">
+                        <input type="text" ng-model="interval.start" ng-pattern="intervalPattern" class="time" /> -
+                        <input type="text" ng-model="interval.stop" ng-pattern="intervalPattern" class="time" />
+                        <a class="app-interval-add" title="Heizzeit hinzufügen" ng-click="addInterval(intervals, $index)">&#x271a;</a>
+                        <a class="app-interval-delete" title="Heizzeit entfernen" ng-click="deleteInterval(intervals, $index)">&#x2718;</a>
+                    </div>
+                    <div ng-show="!intervals.length">
+                        <span class="app-formline">Keine Heizzeiten.
+                            <a class="app-interval-add" title="Heizzeit hinzufügen" ng-click="addInterval(intervals, -1)">&#x271a;</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button class="btn btn-primary" ng-click="update()">Alle Änderungen speichern</button>
+        <button class="btn" ng-click="cancel()">Abbrechen</button>
+    </div>
+</form>

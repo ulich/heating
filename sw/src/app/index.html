@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" ng-controller="TemplateController">
+<head>
+    <meta charset="utf-8">
+    <style>
+        [ng-cloak] {
+            display: none;
+        }
+    </style>
+    <title>Heizung</title>
+    <script src="lib/require/require.js" data-main="bootstrap"></script>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body ng-cloak>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" ng-click="changeView('/')">Heizung</a>
+                <ul class="nav">
+                    <li bs-active="isLocation('/main')"><a ng-click="changeView('/main')">Übersicht</a></li>
+                    <li bs-active="isLocation('/config')"><a ng-click="changeView('/config')">Einstellungen</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div ng-view></div>
+    </div>
+</body>
+</html>

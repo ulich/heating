@@ -1,0 +1,17 @@
+<div ng-show="loading">
+    Lade Daten...
+</div>
+<div ng-show="!loading">
+    <!--
+    <div class="btn-group app-toggle">
+        <button class="btn btn-primary" bs-active="!enabled" ng-click="setEnabled(false)">Aus</button>
+        <button class="btn btn-primary" bs-active="enabled" ng-click="setEnabled(true)">An</button>
+    </div>
+-->
+
+    <form class="form-inline">
+        <label>Aktive Konfiguration:</label>
+        <select ng-options="s.name for s in config.weekly.sets" ng-model="activeWeeklySet"></select>
+        <button ng-click="apply()" ng-show="showApplyButton()" class="btn btn-primary" ng-disabled="applying">Übernehmen</button>
+    </form>
+</div>
