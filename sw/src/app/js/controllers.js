@@ -147,11 +147,6 @@ exports.ConfigController = appControllers.controller('ConfigController',
     };
 
     $scope.update = function() {
-        if ($scope.config.weekly.sets.length === 0) {
-            $window.alert('Mindestens eine Konfiguration muss existieren!');
-            return;
-        }
-
         angular.copy($scope.config, $scope.master);
         $scope.confirmClose = false;
 
