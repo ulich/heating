@@ -33,7 +33,7 @@ exports.MainController = appControllers.controller('MainController',
             $scope.loading = false;
         });
 
-    $scope.saveConfig = function(loadingIndicator) {
+    var saveConfig = function(loadingIndicator) {
         $scope.applying = loadingIndicator;
         Config.save($scope.config)
             .then(function() {
@@ -43,7 +43,7 @@ exports.MainController = appControllers.controller('MainController',
 
     $scope.changeMode = function(mode) {
         $scope.config.mode = mode;
-        $scope.saveConfig(false);
+        saveConfig(false);
     };
 
     $scope.modeButtonClass = function(mode) {
@@ -66,7 +66,7 @@ exports.MainController = appControllers.controller('MainController',
     $scope.apply = function() {
         var idx = $scope.config.weekly.sets.indexOf($scope.activeWeeklySet);
         $scope.config.weekly.activeSet = idx;
-        $scope.saveConfig(true);
+        saveConfig(true);
     };
 }]);
 
