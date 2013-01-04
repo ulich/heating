@@ -42,8 +42,10 @@ exports.MainController = appControllers.controller('MainController',
     };
 
     $scope.changeMode = function(mode) {
-        $scope.config.mode = mode;
-        saveConfig(false);
+        if ($scope.config.mode !== mode) {
+            $scope.config.mode = mode;
+            saveConfig(false);
+        }
     };
 
     $scope.modeButtonClass = function(mode) {
