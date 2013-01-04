@@ -5,30 +5,8 @@ body {
     overflow-y: scroll;
 }
 
-.app-toggle {
-    margin-bottom: 20px;
-}
-
-.app-active-weekly-set {
-    margin-top: 20px;
-}
-
-.app-tab-controls {
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.app-weekly-set input.time {
-    width: 40px;
-}
-
-.app-interval {
-    margin-bottom: 5px;
-}
-
-.app-interval-add {
-    margin-left: 10px;
-    margin-right: 5px;
+.app-datetimefield {
+    width: 140px;
 }
 
 .app-formline {
@@ -55,12 +33,6 @@ body {
     margin-bottom: 20px;
 }
 
-/*
-.tab-content > .active, .pill-content > .active {
-    display: block;
-    margin-top: -1px;
-}*/
-
 input.ng-invalid,
 textarea.ng-invalid,
 select.ng-invalid {
@@ -75,4 +47,53 @@ select.ng-invalid:focus {
     -webkit-box-shadow: 0 0 6px #f8b9b7;
     -moz-box-shadow: 0 0 6px #f8b9b7;
     box-shadow: 0 0 6px #f8b9b7;
+}
+
+
+/* Active Weekly Set */
+
+.app-active-weekly-set {
+    margin-top: 40px;
+}
+
+
+/* Special Heating Times */
+
+.app-special-times {
+    margin-top: 40px;
+}
+
+.app-special-add {
+    margin-left: 20px;
+    font-weight: normal;
+}
+
+.app-special-column-from, .app-special-column-to {
+    width: 160px;
+}
+
+.table .app-special-column-remove {
+    width: 70px;
+    text-align: center;
+}
+
+
+/* Weekly sets */
+
+.app-tab-controls {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.app-weekly-set input.time {
+    width: 40px;
+}
+
+.app-interval {
+    margin-bottom: 5px;
+}
+
+.app-interval-add {
+    margin-left: 10px;
+    margin-right: 5px;
 }

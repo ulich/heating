@@ -19,24 +19,31 @@ exports.TemplateController = appControllers.controller('TemplateController',
 
 
 exports.MainController = appControllers.controller('MainController',
-    [        '$scope', 'Config',
-    function ($scope,   Config)
+    [        '$scope', '$window', 'Config',
+    function ($scope,   $window,   Config)
 {
     $scope.config = Config.defaults();
     $scope.loading = true;
     $scope.applying = false;
+    $scope.specials = angular.copy($scope.config.specials);
 
     Config.fetch()
         .then(function (response) {
-            $scope.config = response.data;
-            $scope.activeWeeklySet = $scope.config.weekly.sets[$scope.config.weekly.activeSet];
+            handleResponse(response);
             $scope.loading = false;
         });
+
+    var handleResponse = function(response) {
+        $scope.config = response.data;
+        $scope.activeWeeklySet = $scope.config.weekly.sets[$scope.config.weekly.activeSet];
+        $scope.specials = angular.copy($scope.config.specials);
+    };
 
     var saveConfig = function(loadingIndicator) {
         $scope.applying = loadingIndicator;
         Config.save($scope.config)
-            .then(function() {
+            .then(function(response) {
+                handleResponse(response);
                 $scope.applying = false;
             });
     };
@@ -52,7 +59,7 @@ exports.MainController = appControllers.controller('MainController',
         return ($scope.config.mode === mode) ? 'btn-primary active' : '';
     };
 
-    $scope.isDirty = function() {
+    $scope.isActiveSetDirty = function() {
         if ($scope.config.weekly.activeSet === Config.defaults().weekly.activeSet) {
             return false;
         }
@@ -62,13 +69,71 @@ exports.MainController = appControllers.controller('MainController',
     };
 
     $scope.showApplyButton = function() {
-        return $scope.applying || $scope.isDirty();
+        return $scope.applying || $scope.isActiveSetDirty();
     };
 
     $scope.apply = function() {
         var idx = $scope.config.weekly.sets.indexOf($scope.activeWeeklySet);
         $scope.config.weekly.activeSet = idx;
         saveConfig(true);
+    };
+
+    $scope.addSpecial = function() {
+        var start = new Date();
+        start.setTime(start.getTime() + (60 * 60 * 1000));
+        start.setMinutes(0);
+        start.setSeconds(0);
+        start.setMilliseconds(0);
+
+        var stop = new Date(start.getTime() + (60 * 60 * 1 * 1000));
+
+        $scope.specials.push({
+            start: start.getTime(),
+            stop: stop.getTime(),
+            enabled: true
+        });
+    };
+
+    $scope.deleteSpecial = function(index) {
+        if ($window.confirm('Wollen Sie die spezielle Heizzeit wirklich löschen?')) {
+            $scope.specials.splice(index, 1);
+        }
+    };
+
+    $scope.isSpecialsDirty = function() {
+        return !angular.equals($scope.specials, $scope.config.specials);
+    };
+
+    var sortSpecials = function() {
+        $scope.specials.sort(function(a, b) {
+            if (a.start === b.start) {
+                return (a.stop - b.stop);
+            }
+            else {
+                return (a.start - b.start);
+            }
+        });
+    };
+
+    $scope.saveSpecials = function() {
+        for (var i=0, len=$scope.specials.length; i < len; i += 1) {
+            var special = $scope.specials[i];
+            if (special.start === special.stop) {
+                $window.alert('Die Startzeit der speziellen Heizzeit in Zeile ' + (i+1) + ' darf nicht gleich der Endzeit sein!');
+                return;
+            }
+            if (special.start > special.stop) {
+                $window.alert('Die Startzeit der speziellen Heizzeit in Zeile ' + (i+1) + ' liegt hinter der Endzeit!');
+                return;
+            }
+        }
+        sortSpecials();
+        angular.copy($scope.specials, $scope.config.specials);
+        saveConfig(false);
+    };
+
+    $scope.resetSpecials = function() {
+        angular.copy($scope.config.specials, $scope.specials);
     };
 }]);
 

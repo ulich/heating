@@ -120,7 +120,7 @@ function logToServer(level, msg)
         message = msg,
         time = os.time()
     })
-    print(msg)
+    --print(msg)
 end
 
 function splitTime(str)
@@ -159,6 +159,21 @@ function isInHeatingTime()
         logToServer("DEBUG", "Heating always off")
         return false;
     end
+
+    local startTs
+    local stopTs
+    local enabled
+
+    for i,specialTime in ipairs(cfg.specials) do
+        startTs = specialTime.start / 1000
+        stopTs = specialTime.stop / 1000
+        enabled = specialTime.enabled
+
+        if (nowTs >= startTs and nowTs < stopTs) then
+            logToServer("DEBUG", "In special heating time " .. i .. " (" .. (enabled and "on" or "off") .. ")")
+            return enabled
+        end
+    end
     
     local activeSet = cfg.weekly.sets[cfg.weekly.activeSet + 1]
     if (activeSet == nil) then
@@ -167,9 +182,6 @@ function isInHeatingTime()
     end
 
     local todaysHeatingTimes = activeSet.weekdays[now.wday]
-    
-    local startTs
-    local stopTs
     
     for i,heatingTime in ipairs(todaysHeatingTimes) do
         startTs = timeStrToTs(now, heatingTime.start)

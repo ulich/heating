@@ -23,7 +23,8 @@ appServices.factory('Config',
                 weekly: {
                     sets: [],
                     activeSet: null
-                }
+                },
+                specials: []
             };
         },
         fetch: function() {

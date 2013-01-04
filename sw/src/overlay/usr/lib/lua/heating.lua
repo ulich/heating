@@ -33,7 +33,8 @@ module.loadConfig = function()
             weekly = {
                 sets = {},
                 activeSet = nil
-            }
+            },
+            specials = {}
         }
     else
         cfg = json.decode(fileContents)

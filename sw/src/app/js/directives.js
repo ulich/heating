@@ -34,7 +34,7 @@ appDirectives.directive('appDate',
             var hour = parseInt(matches[4], 10);
             var minute = parseInt(matches[5], 10);
             var second = parseInt(matches[6], 10);
-            return new Date(year, month-1, day, hour, minute, second);
+            return new Date(year, month-1, day, hour, minute, second).getTime();
         }
     }
 
@@ -47,7 +47,7 @@ appDirectives.directive('appDate',
                 var parsedDateMilissec = parseDate(viewValue);
                 if (parsedDateMilissec > 0) {
                     ctrl.$setValidity('date', true);
-                    return new Date(parsedDateMilissec);
+                    return parsedDateMilissec;
                 }
 
                 // in all other cases it is invalid, return undefined (no model update)
