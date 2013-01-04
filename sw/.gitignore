@@ -6,7 +6,6 @@ build.xml
 .project
 .settings
 .idea/*
-*.sublime-project
 *.sublime-workspace
 build
 heating.tar.gz
