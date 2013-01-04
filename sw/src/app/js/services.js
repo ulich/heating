@@ -6,11 +6,15 @@ var appServices = angular.module('myApp.services', []);
 appServices.value('version', '0.1');
 
 appServices.factory('Config',
-    [       '$http', '$q',
-    function($http,   $q)
+    [       '$http', '$q', '$window',
+    function($http,   $q,   $window)
 {
-    //var url = 'http://localhost:8001/heizung/server/api.lua';
-    var url = 'api.lua';
+    var url;
+    if ($window.localStorage) {
+        url = $window.localStorage.getItem('heating-apiurl');
+    }
+    url = url || 'api.lua';
+    
     var cache;
     return {
         defaults: function() {
