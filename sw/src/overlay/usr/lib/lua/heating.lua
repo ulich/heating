@@ -29,6 +29,7 @@ module.loadConfig = function()
 
     if (fileContents == nil) then 
         cfg = {
+            mode = 'off',
             weekly = {
                 sets = {},
                 activeSet = nil

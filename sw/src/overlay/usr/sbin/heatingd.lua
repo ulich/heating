@@ -151,6 +151,14 @@ function isInHeatingTime()
         logToServer("ERROR", "Could not read config")
         return false
     end
+
+    if (cfg.mode == 'on') then
+        logToServer("DEBUG", "Heating always on")
+        return true;
+    elseif (cfg.mode == 'off') then
+        logToServer("DEBUG", "Heating always off")
+        return false;
+    end
     
     local activeSet = cfg.weekly.sets[cfg.weekly.activeSet + 1]
     if (activeSet == nil) then

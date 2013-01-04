@@ -9,6 +9,10 @@ body {
     margin-bottom: 20px;
 }
 
+.app-active-weekly-set {
+    margin-top: 20px;
+}
+
 .app-tab-controls {
     margin-left: 10px;
     cursor: pointer;

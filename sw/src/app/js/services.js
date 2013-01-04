@@ -19,6 +19,7 @@ appServices.factory('Config',
     return {
         defaults: function() {
             return {
+                mode: 'off',
                 weekly: {
                     sets: [],
                     activeSet: null

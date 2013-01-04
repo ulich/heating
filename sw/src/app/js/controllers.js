@@ -22,7 +22,6 @@ exports.MainController = appControllers.controller('MainController',
     [        '$scope', 'Config',
     function ($scope,   Config)
 {
-    $scope.enabled = true;
     $scope.config = Config.defaults();
     $scope.loading = true;
     $scope.applying = false;
@@ -34,10 +33,21 @@ exports.MainController = appControllers.controller('MainController',
             $scope.loading = false;
         });
 
-    $scope.setEnabled = function(enabled) {
-        if ($scope.enabled !== enabled) {
-            $scope.enabled = enabled;
-        }
+    $scope.saveConfig = function(loadingIndicator) {
+        $scope.applying = loadingIndicator;
+        Config.save($scope.config)
+            .then(function() {
+                $scope.applying = false;
+            });
+    };
+
+    $scope.changeMode = function(mode) {
+        $scope.config.mode = mode;
+        $scope.saveConfig(false);
+    };
+
+    $scope.modeButtonClass = function(mode) {
+        return ($scope.config.mode === mode) ? 'btn-primary active' : '';
     };
 
     $scope.isDirty = function() {
@@ -56,11 +66,7 @@ exports.MainController = appControllers.controller('MainController',
     $scope.apply = function() {
         var idx = $scope.config.weekly.sets.indexOf($scope.activeWeeklySet);
         $scope.config.weekly.activeSet = idx;
-        $scope.applying = true;
-        Config.save($scope.config)
-            .then(function() {
-                $scope.applying = false;
-            });
+        $scope.saveConfig(true);
     };
 }]);
 
