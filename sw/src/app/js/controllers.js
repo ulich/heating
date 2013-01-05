@@ -160,6 +160,16 @@ exports.MainController = appControllers.controller('MainController',
     $scope.resetSpecials = function() {
         angular.copy($scope.config.specials, $scope.specials);
     };
+
+    $scope.$on('$locationChangeStart', function(event, next, current) {
+        if ($scope.isSpecialsDirty() || $scope.isActiveSetDirty()) {
+            var accept = $window.confirm('Es exisitieren noch ungespeicherte Änderungen. ' +
+                'Wollen Sie wirklich ohne Speichern fortfahren?');
+            if (!accept) {
+                event.preventDefault();
+            }
+        }
+    });
 }]);
 
 
