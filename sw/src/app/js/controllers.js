@@ -170,7 +170,6 @@ exports.ConfigController = appControllers.controller('ConfigController',
     function($scope,   $window,   $location,   Config)
 {
     $scope.intervalPattern = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-    $scope.confirmClose = true;
     $scope.loading = true;
 
     $scope.config = Config.defaults();
@@ -246,16 +245,15 @@ exports.ConfigController = appControllers.controller('ConfigController',
 
     $scope.update = function() {
         angular.copy($scope.config, $scope.master);
-        $scope.confirmClose = false;
+        Config.save($scope.config);
+    };
 
-        Config.save($scope.config)
-            .then(function() {
-                $location.path('/');
-            });
+    $scope.isDirty = function() {
+        return !angular.equals($scope.master, $scope.config);
     };
 
     $scope.$on('$locationChangeStart', function(event, next, current) {
-        if ($scope.confirmClose && !angular.equals($scope.master, $scope.config)) {
+        if ($scope.isDirty()) {
             var accept = $window.confirm('Es exisitieren noch ungespeicherte Änderungen. ' +
                 'Wollen Sie wirklich ohne Speichern fortfahren?');
             if (!accept) {
@@ -265,8 +263,8 @@ exports.ConfigController = appControllers.controller('ConfigController',
     });
 
     $scope.cancel = function() {
-        $scope.confirmClose = false;
-        $location.path('/');
+        angular.copy($scope.master, $scope.config);
+        $scope.currentWeeklySet = $scope.config.weekly.sets[$scope.config.weekly.activeSet];
     };
 }]);
 

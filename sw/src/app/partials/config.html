@@ -40,8 +40,8 @@
         </div>
     </div>
 
-    <div class="form-actions">
+    <div class="form-actions" ng-show="isDirty()">
         <button class="btn btn-primary" ng-click="update()" ng-disabled="configForm.$invalid">Alle Änderungen speichern</button>
-        <button class="btn" ng-click="cancel()">Abbrechen</button>
+        <button class="btn" ng-click="cancel()">Alle Änderungen verwerfen</button>
     </div>
 </form>
