@@ -5,16 +5,34 @@ var appServices = angular.module('myApp.services', []);
 
 appServices.value('version', '0.1');
 
-appServices.factory('Config',
-    [       '$http', '$q', '$window',
-    function($http,   $q,   $window)
+appServices.factory('url',
+    [       '$window',
+    function($window)
 {
     var url;
     if ($window.localStorage) {
         url = $window.localStorage.getItem('heating-apiurl');
     }
-    url = url || 'api.lua';
-    
+    return url || 'api.lua';
+}]);
+
+appServices.factory('Status',
+    [       '$http', 'url',
+    function($http, url)
+{
+    return {
+        fetch: function() {
+            return $http.post(url, {
+                cmd: 'getStatus'
+            });
+        }
+    };
+}]);
+
+appServices.factory('Config',
+    [       '$http', '$q', 'url',
+    function($http,   $q,   url)
+{
     var cache;
     return {
         defaults: function() {
@@ -37,7 +55,7 @@ appServices.factory('Config',
             }
             else {
                 promise = $http.post(url, {
-                    cmd: 'getConfig'
+                    cmd: 'getConfigAndStatus'
                 });
                 promise.success(function(data) {
                     cache = data;
@@ -46,7 +64,7 @@ appServices.factory('Config',
             return promise;
         },
         save: function(data) {
-            cache = data;
+            cache.config = data;
             return $http.post(url, {
                 cmd: 'setConfig',
                 params: data

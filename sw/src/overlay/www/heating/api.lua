@@ -95,18 +95,34 @@ if (request.cmd == nil) then
     return
 end
 
+function loadConfigAndStatus()
+    return {
+        config = heating.loadConfig(),
+        status = loadStatus()
+    }
+end
+
+function loadStatus()
+    return {
+        enabled = heating.isHeatingEnabled();
+    }
+end
+
 local cmds = {
-    getConfig = function(params)
-        printResponse(heating.loadConfig())
+    getConfigAndStatus = function(params)
+        printResponse(loadConfigAndStatus())
     end,
     setConfig = function(params)
         if (params == nil) then
-            printError(ERRORCODE_INVALID_REQUEST, "Request paramameter 'params.enabled' missing")
+            printError(ERRORCODE_INVALID_REQUEST, "Request paramameter missing")
             return
         end
         
         heating.writeConfig(params);
-        printResponse(params)
+        printResponse(loadConfigAndStatus());
+    end,
+    getStatus = function(params)
+        printResponse(loadStatus())
     end
 }
 

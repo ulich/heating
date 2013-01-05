@@ -19,13 +19,28 @@ exports.TemplateController = appControllers.controller('TemplateController',
 
 
 exports.MainController = appControllers.controller('MainController',
-    [        '$scope', '$window', 'Config',
-    function ($scope,   $window,   Config)
+    [        '$scope', '$window', 'Config', 'Status',
+    function ($scope,   $window,   Config,   Status)
 {
     $scope.config = Config.defaults();
     $scope.loading = true;
     $scope.applying = false;
     $scope.specials = angular.copy($scope.config.specials);
+
+    var getStatus = function() {
+        Status.fetch()
+            .then(function (response) {
+                $scope.status = response.data;
+            });
+    };
+
+    var pollTimer = $window.setInterval(function() {
+        getStatus();
+    }, 1000 * 10);
+
+    $scope.$on('$destroy', function() {
+        clearInterval(pollTimer);
+    });
 
     Config.fetch()
         .then(function (response) {
@@ -34,7 +49,8 @@ exports.MainController = appControllers.controller('MainController',
         });
 
     var handleResponse = function(response) {
-        $scope.config = response.data;
+        $scope.config = response.data.config;
+        $scope.status = response.data.status;
         $scope.activeWeeklySet = $scope.config.weekly.sets[$scope.config.weekly.activeSet];
         $scope.specials = angular.copy($scope.config.specials);
     };
@@ -46,6 +62,15 @@ exports.MainController = appControllers.controller('MainController',
                 handleResponse(response);
                 $scope.applying = false;
             });
+    };
+
+    $scope.statusEnabledLabelClass = function() {
+        if ($scope.status) {
+            return ($scope.status.enabled ? 'label-success' : 'label-important');
+        }
+        else {
+            return 'hide';
+        }
     };
 
     $scope.changeMode = function(mode) {
@@ -152,7 +177,7 @@ exports.ConfigController = appControllers.controller('ConfigController',
     $scope.master = angular.copy($scope.config);
     Config.fetch()
         .then(function (response) {
-            $scope.config = angular.copy(response.data);
+            $scope.config = angular.copy(response.data.config);
             $scope.master = angular.copy($scope.config);
             $scope.currentWeeklySet = $scope.config.weekly.sets[$scope.config.weekly.activeSet];
             $scope.loading = false;

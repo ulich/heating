@@ -2,10 +2,19 @@
     Lade Daten...
 </div>
 <div ng-show="!loading">
-    <div class="btn-group">
-        <button class="btn" ng-class="modeButtonClass('on')" ng-click="changeMode('on')">Immer an</button>
-        <button class="btn" ng-class="modeButtonClass('off')" ng-click="changeMode('off')">Immer aus</button>
-        <button class="btn" ng-class="modeButtonClass('timed')" ng-click="changeMode('timed')">Zeitgesteuert</button>
+    <div class="row">
+        <div class="span6">
+            <div class="btn-group">
+                <button class="btn" ng-class="modeButtonClass('on')" ng-click="changeMode('on')">Immer an</button>
+                <button class="btn" ng-class="modeButtonClass('off')" ng-click="changeMode('off')">Immer aus</button>
+                <button class="btn" ng-class="modeButtonClass('timed')" ng-click="changeMode('timed')">Zeitgesteuert</button>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="pull-right">
+                <span class="label" ng-class="statusEnabledLabelClass()">{{status.enabled | app.heatingEnabled}}</span>
+            </div>
+        </div>
     </div>
 
     <div ng-show="config.mode == 'timed'">

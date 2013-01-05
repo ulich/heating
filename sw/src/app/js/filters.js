@@ -5,17 +5,10 @@
 
 var appFilters = angular.module('myApp.filters', []);
 
-appFilters.filter('app.heatingEnabledPast', function()
+appFilters.filter('app.heatingEnabled', function()
 {
     return function (enabled) {
-        return 'Die Heizung wurde ' + (enabled ? 'ein' : 'aus') + 'geschaltet.';
-    };
-});
-
-appFilters.filter('app.heatingEnabledFuture', function()
-{
-    return function (enabled) {
-        return 'Die Heizung wird ' + (enabled ? 'ein' : 'aus') + 'geschaltet.';
+        return 'Heizung ' + (enabled ? 'ein' : 'aus') + 'geschaltet';
     };
 });
 

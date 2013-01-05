@@ -8,11 +8,10 @@ local DIGITEMPRC = "/etc/digitemp"
 local THERMOMETER_DEVICE = "/dev/tts/1"
 local PROC_FOLDER = "/var/heating"
 local TEMPFILE = "/var/heating/temperature"
-local HEATINGFILE = "/var/heating/enabled"
 
 function initThermometer()
     -- if io.open(DIGITEMPRC, "r") == nil then
-    --     logToServer("DEBUG", "Searching for 1-Wire devices on net")
+    --     heating.log("DEBUG", "Searching for 1-Wire devices on net")
     --     os.execute(DIGITEMP .. " -c " .. DIGITEMPRC .. " -i -s" .. THERMOMETER_DEVICE);
     -- end
 end
@@ -22,7 +21,7 @@ function measureTemperature()
     
     -- local tempFh = io.open(TEMPFILE, "r")
     -- if tempFh == nil then
-    --     logToServer("ERROR", "Could not open temperature measurement result file " .. TEMPFILE);
+    --     heating.log("ERROR", "Could not open temperature measurement result file " .. TEMPFILE);
     --     tempFh:close();
     --     return nil;
     -- end
@@ -31,7 +30,7 @@ function measureTemperature()
     -- local temperature = tonumber(contents)
     
     -- if temperature == nil then
-    --     logToServer("ERROR", "Temperature from measurement result file " .. TEMPFILE .. " could not be parsed. Contents were: " .. contents);
+    --     heating.log("ERROR", "Temperature from measurement result file " .. TEMPFILE .. " could not be parsed. Contents were: " .. contents);
     -- end
     
     -- tempFh:close();
@@ -59,70 +58,6 @@ function getUptime()
     return uptime
 end
 
-function isHeatingEnabled()
-    local fh = io.open(HEATINGFILE, "r");
-    local enabled = false
-    
-    if fh == nil then
-        return false
-    else
-        local contents = fh:read()
-        if contents == "1" then
-            enabled = true
-        else
-            enabled = false
-        end
-    end
-    
-    fh:close()
-    return enabled
-end
-
-function enableHeating(on)
-    local heatingEnabled = isHeatingEnabled()
-
-    if on then
-        if not heatingEnabled then
-            os.execute("gpio-utils disable 7")
-            os.execute("echo 1 > " .. HEATINGFILE)
-            logToServer("INFO", "Enable heating")
-        else
-            logToServer("DEBUG", "Heating is kept enabled")
-        end
-    
-    else 
-        if heatingEnabled then
-            os.execute("gpio-utils enable 7")
-            os.execute("echo 0 > " .. HEATINGFILE)
-            logToServer("INFO", "Disable heating")
-        else
-            logToServer("DEBUG", "Heating is kept disabled")
-        end
-    end
-end
-
-function sendToServer(command, params)
-    -- local dataEncoded = "command=" .. url.escape(command)
-    
-    -- for k,v in pairs(params) do        
-    --     dataEncoded = dataEncoded .. "&" .. url.escape(k) .. "=" .. url.escape(v)
-    -- end
-    
-    -- page, status, auth = https.request(
-    --     "https://wrt54g:ouS1q9X8t6YPl0pTWMfFo3yP8emO7qJQQODUDMrmc5MaFUeDcwqXVlPpf42d6WD@srv.tiv-trendinvest.de/heating/index.php", 
-    --     dataEncoded
-    -- )
-end
-
-function logToServer(level, msg)
-    sendToServer("log", {
-        level = level,
-        message = msg,
-        time = os.time()
-    })
-    --print(msg)
-end
-
 function splitTime(str)
     local pos = str:find(":")
     return str:sub(1, pos-1), str:sub(pos + 1) 
@@ -148,15 +83,15 @@ function isInHeatingTime()
     
     local cfg = heating.loadConfig()
     if cfg == nil then
-        logToServer("ERROR", "Could not read config")
+        heating.log("ERROR", "Could not read config")
         return false
     end
 
     if (cfg.mode == 'on') then
-        logToServer("DEBUG", "Heating always on")
+        heating.log("DEBUG", "Heating always on")
         return true;
     elseif (cfg.mode == 'off') then
-        logToServer("DEBUG", "Heating always off")
+        heating.log("DEBUG", "Heating always off")
         return false;
     end
 
@@ -170,14 +105,14 @@ function isInHeatingTime()
         enabled = specialTime.enabled
 
         if (nowTs >= startTs and nowTs < stopTs) then
-            logToServer("DEBUG", "In special heating time " .. i .. " (" .. (enabled and "on" or "off") .. ")")
+            heating.log("DEBUG", "In special heating time " .. i .. " (" .. (enabled and "on" or "off") .. ")")
             return enabled
         end
     end
     
     local activeSet = cfg.weekly.sets[cfg.weekly.activeSet + 1]
     if (activeSet == nil) then
-        logToServer("ERROR", "Invalid activeSet " .. cfg.weekly.activeSet)
+        heating.log("ERROR", "Invalid activeSet " .. cfg.weekly.activeSet)
         return false
     end
 
@@ -188,12 +123,12 @@ function isInHeatingTime()
         stopTs = timeStrToTs(now, heatingTime.stop)
         
         if nowTs >= startTs and nowTs < stopTs then
-            logToServer("DEBUG", "In heating time " .. heatingTime.start .. "-" .. heatingTime.stop .. " (" .. activeSet.name .. ")")
+            heating.log("DEBUG", "In heating time " .. heatingTime.start .. "-" .. heatingTime.stop .. " (" .. activeSet.name .. ")")
             return true
         end
     end
     
-    logToServer("DEBUG", "Not in any heating time")
+    heating.log("DEBUG", "Not in any heating time")
     return false
 end
 
@@ -202,7 +137,7 @@ function main()
 
     -- do not anything incase the system is still booting up
     if getUptime() < 120 then
-        logToServer("DEBUG", "System is still booting up, not doing anything")
+        heating.log("DEBUG", "System is still booting up, not doing anything")
         return
     end
 
@@ -211,17 +146,17 @@ function main()
     local temperature = measureTemperature();
     
     if temperature ~= nil then
-        sendToServer("save_temperature", {
+        heating.sendToServer("save_temperature", {
             temperature = temperature,
             time = os.time()
         });
         
         if isInHeatingTime() and temperature < 22 then
-            enableHeating(true)
+            heating.enableHeating(true)
         elseif temperature < 15 then
-            enableHeating(true)
+            heating.enableHeating(true)
         else
-            enableHeating(false)
+            heating.enableHeating(false)
         end
     end
 end
