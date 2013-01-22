@@ -17,14 +17,18 @@ appServices.factory('url',
 }]);
 
 appServices.factory('Status',
-    [       '$http', 'url',
-    function($http, url)
+    [       '$http', 'url', 'Config',
+    function($http,   url,   Config)
 {
     return {
         fetch: function() {
-            return $http.post(url, {
+            var promise = $http.post(url, {
                 cmd: 'getStatus'
             });
+            promise.success(function(data) {
+                Config.setCachedStatus(data);
+            });
+            return promise;
         }
     };
 }]);
@@ -69,6 +73,11 @@ appServices.factory('Config',
                 cmd: 'setConfig',
                 params: data
             });
+        },
+        setCachedStatus: function(status) {
+            if (cache) {
+                cache.status = status;
+            }
         }
     };
 }]);
