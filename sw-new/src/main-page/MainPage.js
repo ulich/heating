@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Toolbar, Page} from 'react-onsenui';
 import WeeklySetList from './weekly-set/WeeklySetList';
-import WeeklySetPage from './weekly-set/WeeklySetPage';
 
 export default class MainPage extends Component {
     
@@ -32,17 +31,13 @@ export default class MainPage extends Component {
         this.setState({ activeWeeklySet: set })
     }
 
-    showWeeklySet(set) {
-        this.props.navigator.pushPage({ component: WeeklySetPage, props: { weeklySet: set } })
-    }
-
     render() {
         return (
             <Page renderToolbar={this.renderToolbar.bind(this)}>
                 <WeeklySetList weeklySets={this.state.weeklySets}
-                                          activeSet={this.state.activeWeeklySet}
-                                          onSelect={this.selectWeeklySet.bind(this)}
-                                          onEdit={this.showWeeklySet.bind(this)} />
+                               activeSet={this.state.activeWeeklySet}
+                               onSelect={this.selectWeeklySet.bind(this)}
+                               navigator={this.props.navigator} />
             </Page>
         )
     }

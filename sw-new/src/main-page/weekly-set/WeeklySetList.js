@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {List, ListItem, ListHeader, Input, Button, Icon} from 'react-onsenui';
+import WeeklySetPage from './WeeklySetPage';
 
 export default class WeeklySetList extends Component {
     
@@ -7,7 +8,7 @@ export default class WeeklySetList extends Component {
         weeklySets: PropTypes.array.isRequired,
         activeSet: PropTypes.object,
         onSelect: PropTypes.func.isRequired,
-        onEdit: PropTypes.func.isRequired,
+        navigator: PropTypes.object.isRequired,
     };
 
     renderListItem(set) {
@@ -24,12 +25,16 @@ export default class WeeklySetList extends Component {
                     {set.name}
                 </label>
                 <div className="right">
-                    <Button modifier="quiet" onClick={() => this.props.onEdit(set)}>
+                    <Button modifier="quiet" onClick={this.showWeeklySetPage.bind(this, set)}>
                         <Icon icon="md-edit" />
                     </Button>
                 </div>
             </ListItem>
         )
+    }
+
+    showWeeklySetPage(set) {
+        this.props.navigator.pushPage({ component: WeeklySetPage, props: { weeklySet: set } })
     }
 
     render() {
