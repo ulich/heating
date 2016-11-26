@@ -11,10 +11,17 @@ export default class WeeklySetList extends Component {
         navigator: PropTypes.object.isRequired,
     };
 
+    showWeeklySetPage(set) {
+        this.props.navigator.pushPage({
+            component: WeeklySetPage,
+            props: { weeklySet: set }
+        })
+    }
+
     renderListItem(set) {
         const id = 'weekly-' + btoa(set.name)
         return (
-            <ListItem key={set.name} tappable>
+            <ListItem key={id} tappable>
                 <label className="left">
                     <Input type="radio"
                            inputId={id}
@@ -31,10 +38,6 @@ export default class WeeklySetList extends Component {
                 </div>
             </ListItem>
         )
-    }
-
-    showWeeklySetPage(set) {
-        this.props.navigator.pushPage({ component: WeeklySetPage, props: { weeklySet: set } })
     }
 
     render() {

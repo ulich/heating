@@ -11,12 +11,34 @@ export default class MainPage extends Component {
     constructor() {
         super()
 
-        const weeklySets = [{name: "Immer an"}, {name: "Immer aus"}]
+        const weeklySets = [{
+            name: "Immer an",
+            weekdays: [
+                // first is monday, last is sunday. server returns first stunday, last saturday!
+                [{start: "00:00", end: "24:00"}, {start: "00:00", end: "24:00"}],
+                [{start: "00:00", end: "24:00"}],
+                [{start: "00:00", end: "24:00"}], 
+                [{start: "00:00", end: "24:00"}], 
+                [{start: "00:00", end: "24:00"}], 
+                [{start: "00:00", end: "24:00"}], 
+                [{start: "00:00", end: "24:00"}]
+            ]
+        }, {
+            name: "Immer aus",
+            weekdays: [
+                // first is monday, last is sunday. server returns first stunday, last saturday!
+                [], [], [], [], [], [], []
+            ]
+        }]
 
         this.state = {
             weeklySets,
             activeWeeklySet: weeklySets[0]
         }
+    }
+
+    selectWeeklySet(set) {
+        this.setState({ activeWeeklySet: set })
     }
 
     renderToolbar() {
@@ -25,10 +47,6 @@ export default class MainPage extends Component {
                 <div className="center">Heizung</div>
             </Toolbar>
         )
-    }
-
-    selectWeeklySet(set) {
-        this.setState({ activeWeeklySet: set })
     }
 
     render() {
