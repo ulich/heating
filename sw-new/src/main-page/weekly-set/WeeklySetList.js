@@ -1,50 +1,51 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+import {observer} from 'mobx-react';
 import {List, ListItem, ListHeader, Input, Button, Icon} from 'react-onsenui';
+import {weeklySetStore} from './WeeklySetStore';
 import WeeklySetPage from './WeeklySetPage';
 
-export default class WeeklySetList extends Component {
-    
-    static propTypes = {
-        weeklySets: PropTypes.array.isRequired,
-        activeSet: PropTypes.object,
-        onSelect: PropTypes.func.isRequired,
-        navigator: PropTypes.object.isRequired,
-    };
+const WeeklySetList = observer(() => {
+    return (
+        <List dataSource={weeklySetStore.sets.slice()}
+              renderHeader={() => <ListHeader>Heiz-Konfiguration</ListHeader>}
+              renderRow={(set, i) => <WeeklySetListItem set={set} index={i} key={i} />} />
+    )
+})
+export default WeeklySetList
 
-    showWeeklySetPage(set) {
-        this.props.navigator.pushPage({
-            component: WeeklySetPage,
-            props: { weeklySet: set }
+
+const WeeklySetListItem = observer(({set, index}, {navigator}) => {
+
+    const showWeeklySetPage = () => {
+        navigator.pushPage({
+            render: () => <WeeklySetPage weeklySet={set} />,
         })
     }
 
-    renderListItem(set) {
-        const id = 'weekly-' + btoa(set.name)
-        return (
-            <ListItem key={id} tappable>
-                <label className="left">
-                    <Input type="radio"
-                           inputId={id}
-                           checked={set === this.props.activeSet}
-                           onChange={() => this.props.onSelect(set)} />
-                </label>
-                <label className="center" htmlFor={id}>
-                    {set.name}
-                </label>
-                <div className="right">
-                    <Button modifier="quiet" onClick={this.showWeeklySetPage.bind(this, set)}>
-                        <Icon icon="md-edit" />
-                    </Button>
-                </div>
-            </ListItem>
-        )
+    const onSelect = () => {
+        weeklySetStore.activeSetIndex = index
     }
 
-    render() {
-        return (
-            <List dataSource={this.props.weeklySets}
-                  renderHeader={() => <ListHeader>Heiz-Konfiguration</ListHeader>}
-                  renderRow={this.renderListItem.bind(this)} />
-        );
-    }
+    const id = 'weekly-' + btoa(set.name)
+    return (
+        <ListItem tappable>
+            <label className="left">
+                <Input type="radio"
+                       inputId={id}
+                       checked={index === weeklySetStore.activeSetIndex}
+                       onChange={onSelect} />
+            </label>
+            <label className="center" htmlFor={id}>
+                {set.name}
+            </label>
+            <div className="right">
+                <Button modifier="quiet" onClick={showWeeklySetPage}>
+                    <Icon icon="md-edit" />
+                </Button>
+            </div>
+        </ListItem>
+    )
+})
+WeeklySetListItem.contextTypes = {
+    navigator: PropTypes.object.isRequired
 }

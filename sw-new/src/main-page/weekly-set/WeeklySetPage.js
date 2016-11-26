@@ -1,56 +1,54 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+import {observer} from 'mobx-react';
 import {Toolbar, Page, List, ListItem} from 'react-onsenui';
 import PopPageBackButton from '../PopPageBackButton';
 import WeekdayPage from './WeekdayPage';
 
 
-export default class WeeklySetPage extends Component {
-    
-    static propTypes = {
-        navigator: PropTypes.object.isRequired,
-        weeklySet: PropTypes.object.isRequired,
-    }
+const WeeklySetPage = observer(({weeklySet}) => {
 
-    static weekDayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag']
-
-    showWeekdayPage(weekDayName, heatingTimes) {
-        this.props.navigator.pushPage({
-            component: WeekdayPage,
-            props: { weekDayName, heatingTimes }
-        })
-    }
-
-    renderToolbar() {
+    const renderToolbar = () => {
         return (
             <Toolbar>
-                <div className='left'><PopPageBackButton navigator={this.props.navigator} /></div>
-                <div className="center">{this.props.weeklySet.name}</div>
+                <div className='left'><PopPageBackButton /></div>
+                <div className="center">{weeklySet.name}</div>
             </Toolbar>
         )
     }
 
-    renderListItem(heatingTimes, weekDayIndex) {
-        const weekDayName = WeeklySetPage.weekDayNames[weekDayIndex] || '?'
-        const heatingTimesText = heatingTimes.map(t => `${t.start} - ${t.end}` ).join(', ')
+    return (
+        <Page renderToolbar={renderToolbar}>
+            <List dataSource={weeklySet.weekdays.slice()}
+                  renderRow={(row, i) => <WeekdayListItem heatingTimes={row} weekDayIndex={i} key={i} />} />
+        </Page>
+    )
+})
+export default WeeklySetPage
 
-        return (
-            <ListItem key={weekDayIndex} tappable onClick={this.showWeekdayPage.bind(this, weekDayName, heatingTimes)}>
-                <div className="left" style={{ width: 100 }}>
-                    {weekDayName}
-                </div>
-                <div className="center" style={{ fontSize: 10 }}>
-                    {heatingTimesText}
-                </div>
-            </ListItem>
-        )
+
+const WeekdayListItem = observer(({heatingTimes, weekDayIndex}, {navigator}) => {
+
+    const weekDayName = WeekdayListItem.weekDayNames[weekDayIndex] || '?'
+    const heatingTimesText = heatingTimes.map(t => `${t.start} - ${t.end}` ).join(', ')
+
+    const showWeekdayPage = () => {
+        navigator.pushPage({
+            render: () => <WeekdayPage weekDayName={weekDayName} heatingTimes={heatingTimes} />
+        })
     }
 
-    render() {
-        return (
-            <Page renderToolbar={this.renderToolbar.bind(this)}>
-                <List dataSource={this.props.weeklySet.weekdays}
-                      renderRow={this.renderListItem.bind(this)} />
-            </Page>
-        )
-    }
+    return (
+        <ListItem key={weekDayIndex} tappable onClick={showWeekdayPage}>
+            <div className="left" style={{ width: 100 }}>
+                {weekDayName}
+            </div>
+            <div className="center" style={{ fontSize: 10 }}>
+                {heatingTimesText}
+            </div>
+        </ListItem>
+    )
+})
+WeekdayListItem.weekDayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag']
+WeekdayListItem.contextTypes = {
+    navigator: PropTypes.object.isRequired
 }

@@ -1,17 +1,15 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {BackButton} from 'react-onsenui';
 
-export default class PopPageBackButton extends Component {
-    
-    static propTypes = {
-        navigator: PropTypes.object.isRequired,
-    };
+const PopPageBackButton = (props, {navigator}) => {
 
-    goBack() {
-        this.props.navigator.popPage()
+    const goBack = () => {
+        navigator.popPage()
     }
 
-    render() {
-        return <BackButton onClick={this.goBack.bind(this)}>Zurück</BackButton>
-    }
+    return <BackButton onClick={goBack}>Zurück</BackButton>
 }
+PopPageBackButton.contextTypes = {
+    navigator: PropTypes.object.isRequired
+}
+export default PopPageBackButton

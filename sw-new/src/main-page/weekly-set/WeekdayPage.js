@@ -1,62 +1,57 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import {observer} from 'mobx-react';
 import {Toolbar, Page, List, ListItem, Input, Button, Icon} from 'react-onsenui';
 import PopPageBackButton from '../PopPageBackButton';
 import FabButton from './FabButton';
 import "./WeekdayPage.css";
 
-export default class WeekdayPage extends Component {
+const WeekdayPage = observer(({weekDayName, heatingTimes}) => {
     
-    static propTypes = {
-        navigator: PropTypes.object.isRequired,
-    };
-
-    removeHeatingTime(heatingTime) {
-        
+    const addHeatingTime = () => {
     }
 
-    addHeatingTime() {
+    const renderToolbar = () =>
+        <Toolbar>
+            <div className="left"><PopPageBackButton /></div>
+            <div className="center">{weekDayName}</div>
+        </Toolbar>
+
+
+    return (
+        <Page renderToolbar={renderToolbar} className="WeekdayPage">
+            <List dataSource={heatingTimes.slice()}
+                  renderRow={(row, i) => <HeatingTime time={row} i={i} key={i} />} />
+
+            <FabButton onClick={addHeatingTime}>
+                <Icon icon="md-plus" />
+            </FabButton>
+        </Page>
+    )
+})
+export default WeekdayPage
+
+
+const HeatingTime = observer(({time, i}) => {
+
+    const removeHeatingTime = () => {
     }
 
-    renderToolbar() {
-        return (
-            <Toolbar>
-                <div className="left"><PopPageBackButton navigator={this.props.navigator} /></div>
-                <div className="center">{this.props.weekDayName}</div>
-            </Toolbar>
-        )
-    }
-
-    renderListItem(heatingTime, i) {
-        return (
-            <ListItem key={i} modifier="longdivider">
-                <div className="center" style={{ display: 'flex' }}>
-                    <div style={{ width: 50 }}>
-                        <Input value={heatingTime.start} modifier="underbar" />
-                    </div>
-                    <div style={{ margin: '0 10px' }}>-</div>
-                    <div style={{ width: 50 }}>
-                        <Input value={heatingTime.end} modifier="underbar" />
-                    </div>
+    return (
+        <ListItem modifier="longdivider">
+            <div className="center" style={{ display: 'flex' }}>
+                <div style={{ width: 50 }}>
+                    <Input value={time.start} modifier="underbar" />
                 </div>
-                <div className="right">
-                    <Button modifier="quiet" onClick={this.removeHeatingTime.bind(this, heatingTime)}>
-                        <Icon icon="md-delete" className="delete-button"/>
-                    </Button>
+                <div style={{ margin: '0 10px' }}>-</div>
+                <div style={{ width: 50 }}>
+                    <Input value={time.end} modifier="underbar" />
                 </div>
-            </ListItem>
-        )
-    }
-
-    render() {
-        return (
-            <Page renderToolbar={this.renderToolbar.bind(this)} className="WeekdayPage">
-                <List dataSource={this.props.heatingTimes}
-                      renderRow={this.renderListItem.bind(this)} />
-
-                <FabButton onClick={this.addHeatingTime.bind(this)}>
-                    <Icon icon="md-plus" />
-                </FabButton>
-            </Page>
-        )
-    }
-}
+            </div>
+            <div className="right">
+                <Button modifier="quiet" onClick={removeHeatingTime}>
+                    <Icon icon="md-delete" className="delete-button"/>
+                </Button>
+            </div>
+        </ListItem>
+    )
+})

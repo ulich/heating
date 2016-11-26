@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Navigator} from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
+import NavigatorProvider from './utils/NavigatorProvider';
 import MainPage from './main-page/MainPage';
 
-class App extends Component {
 
-    renderPage(route, navigator) {
-        return <route.component key={route.component} navigator={navigator} {...route.props} />
-    }
+const renderPage = (route, navigator) =>
+    <NavigatorProvider navigator={navigator} key={route.render}>
+        {route.render()}
+    </NavigatorProvider>
 
-    render() {
-        return (
-            <Navigator renderPage={this.renderPage}
-                       initialRoute={{component: MainPage}} />
-        )
-    }
-}
 
-export default App;
+const App = () =>
+    <Navigator renderPage={renderPage}
+               initialRoute={{render: () => <MainPage />}} />
+
+export default App
