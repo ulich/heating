@@ -3,7 +3,7 @@ import {Navigator} from 'react-onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import NavigatorProvider from './utils/NavigatorProvider';
-import MainPage from './main-page/MainPage';
+import MainPage from './MainPage';
 
 
 const renderPage = (route, navigator) =>

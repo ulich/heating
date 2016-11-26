@@ -1,18 +1,8 @@
 import React, {PropTypes} from 'react';
 import {observer} from 'mobx-react';
-import {List, ListItem, ListHeader, Input, Button, Icon} from 'react-onsenui';
-import {weeklySetStore} from './WeeklySetStore';
-import WeeklySetPage from './WeeklySetPage';
-
-const WeeklySetList = observer(() => {
-    return (
-        <List dataSource={weeklySetStore.sets.slice()}
-              renderHeader={() => <ListHeader>Heiz-Konfiguration</ListHeader>}
-              renderRow={(set, i) => <WeeklySetListItem set={set} index={i} key={i} />} />
-    )
-})
-export default WeeklySetList
-
+import {ListItem, Input, Button, Icon} from 'react-onsenui';
+import {weeklySetStore} from '../WeeklySetStore';
+import WeeklySetPage from '../weekly-set-page/WeeklySetPage';
 
 const WeeklySetListItem = observer(({set, index}, {navigator}) => {
 
@@ -49,3 +39,4 @@ const WeeklySetListItem = observer(({set, index}, {navigator}) => {
 WeeklySetListItem.contextTypes = {
     navigator: PropTypes.object.isRequired
 }
+export default WeeklySetListItem

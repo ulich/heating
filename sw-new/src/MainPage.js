@@ -1,6 +1,6 @@
 import React from 'react';
 import {Toolbar, Page} from 'react-onsenui';
-import WeeklySetList from './weekly-set/WeeklySetList';
+import WeeklySetList from './weekly-set/weekly-set-list/WeeklySetList';
 
 const renderToolbar = () =>
     <Toolbar>
