@@ -16,7 +16,7 @@ const HeatingTime = observer(({time, i}) => {
                 </div>
                 <div style={{ margin: '0 10px' }}>-</div>
                 <div style={{ width: 50 }}>
-                    <Input value={time.end} modifier="underbar" />
+                    <Input value={time.stop} modifier="underbar" />
                 </div>
             </div>
             <div className="right">

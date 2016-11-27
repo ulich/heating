@@ -6,7 +6,7 @@ import WeekdayPage from '../weekday-page/WeekdayPage';
 const WeekdayListItem = observer(({heatingTimes, weekDayIndex}, {navigator}) => {
 
     const weekDayName = WeekdayListItem.weekDayNames[weekDayIndex] || '?'
-    const heatingTimesText = heatingTimes.map(t => `${t.start} - ${t.end}` ).join(', ')
+    const heatingTimesText = heatingTimes.map(t => `${t.start} - ${t.stop}` ).join(', ')
 
     const showWeekdayPage = () => {
         navigator.pushPage({

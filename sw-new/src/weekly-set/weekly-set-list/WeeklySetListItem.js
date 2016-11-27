@@ -1,19 +1,13 @@
 import React, {PropTypes} from 'react';
-import {observer} from 'mobx-react';
 import {ListItem, Input, Button, Icon} from 'react-onsenui';
-import {weeklySetStore} from '../WeeklySetStore';
 import WeeklySetPage from '../weekly-set-page/WeeklySetPage';
 
-const WeeklySetListItem = observer(({set, index}, {navigator}) => {
+const WeeklySetListItem = ({set, selected, onSelect}, {navigator}) => {
 
     const showWeeklySetPage = () => {
         navigator.pushPage({
             render: () => <WeeklySetPage weeklySet={set} />,
         })
-    }
-
-    const onSelect = () => {
-        weeklySetStore.activeSetIndex = index
     }
 
     const id = 'weekly-' + btoa(set.name)
@@ -22,7 +16,7 @@ const WeeklySetListItem = observer(({set, index}, {navigator}) => {
             <label className="left">
                 <Input type="radio"
                        inputId={id}
-                       checked={index === weeklySetStore.activeSetIndex}
+                       checked={selected}
                        onChange={onSelect} />
             </label>
             <label className="center" htmlFor={id}>
@@ -35,7 +29,7 @@ const WeeklySetListItem = observer(({set, index}, {navigator}) => {
             </div>
         </ListItem>
     )
-})
+}
 WeeklySetListItem.contextTypes = {
     navigator: PropTypes.object.isRequired
 }
