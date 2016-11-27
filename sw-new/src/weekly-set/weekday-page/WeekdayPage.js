@@ -1,6 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Toolbar, Page, List, Icon} from 'react-onsenui';
+import {Toolbar, List, Icon} from 'react-onsenui';
+import LoadingAwarePage from '../../utils/LoadingAwarePage';
 import PopPageBackButton from '../../utils/PopPageBackButton';
 import FabButton from '../FabButton';
 import HeatingTime from './HeatingTime';
@@ -8,6 +9,11 @@ import HeatingTime from './HeatingTime';
 const WeekdayPage = observer(({weekDayName, heatingTimes}) => {
     
     const addHeatingTime = () => {
+    }
+
+    const deleteHeatingTime = (time) => {
+        const i = heatingTimes.indexOf(time)
+        heatingTimes.splice(i, 1)
     }
 
     const renderToolbar = () =>
@@ -18,14 +24,14 @@ const WeekdayPage = observer(({weekDayName, heatingTimes}) => {
 
 
     return (
-        <Page renderToolbar={renderToolbar}>
+        <LoadingAwarePage renderToolbar={renderToolbar}>
             <List dataSource={heatingTimes.slice()}
-                  renderRow={(row, i) => <HeatingTime time={row} i={i} key={i} />} />
+                  renderRow={(row, i) => <HeatingTime time={row} onDelete={deleteHeatingTime} key={i} />} />
 
             <FabButton onClick={addHeatingTime}>
                 <Icon icon="md-plus" />
             </FabButton>
-        </Page>
+        </LoadingAwarePage>
     )
 })
 export default WeekdayPage

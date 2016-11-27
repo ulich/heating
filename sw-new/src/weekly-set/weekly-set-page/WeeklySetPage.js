@@ -1,6 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Toolbar, Page, List} from 'react-onsenui';
+import {Toolbar, List} from 'react-onsenui';
+import LoadingAwarePage from '../../utils/LoadingAwarePage';
 import PopPageBackButton from '../../utils/PopPageBackButton';
 import WeekdayListItem from './WeekdayListItem';
 
@@ -17,10 +18,10 @@ const WeeklySetPage = observer(({weeklySet}) => {
     }
 
     return (
-        <Page renderToolbar={renderToolbar}>
+        <LoadingAwarePage renderToolbar={renderToolbar}>
             <List dataSource={weeklySet.weekdays.slice()}
                   renderRow={(row, i) => <WeekdayListItem heatingTimes={row} weekDayIndex={i} key={i} />} />
-        </Page>
+        </LoadingAwarePage>
     )
 })
 export default WeeklySetPage
