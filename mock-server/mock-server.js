@@ -64,7 +64,7 @@ app.post('/api.lua', function (req, res) {
                 res.status(404).send({ error: "Unknown command" })
                 break
         }
-    }, 100);
+    }, 300);
 })
 
 function response(body) {
