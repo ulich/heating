@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
+import {observer} from 'mobx-react';
 import {ListItem, Input, Button, Icon} from 'react-onsenui';
 import WeeklySetPage from '../weekly-set-page/WeeklySetPage';
 
-const WeeklySetListItem = ({set, selected, onSelect}, {navigator}) => {
+const WeeklySetListItem = observer(({set, selected, onSelect}, {navigator}) => {
 
     const showWeeklySetPage = () => {
         navigator.pushPage({
@@ -29,7 +30,7 @@ const WeeklySetListItem = ({set, selected, onSelect}, {navigator}) => {
             </div>
         </ListItem>
     )
-}
+})
 WeeklySetListItem.contextTypes = {
     navigator: PropTypes.object.isRequired
 }
