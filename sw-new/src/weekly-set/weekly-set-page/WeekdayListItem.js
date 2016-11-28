@@ -6,7 +6,14 @@ import WeekdayPage from '../weekday-page/WeekdayPage';
 const WeekdayListItem = observer(({heatingTimes, weekDayIndex}, {navigator}) => {
 
     const weekDayName = WeekdayListItem.weekDayNames[weekDayIndex] || '?'
-    const heatingTimesText = heatingTimes.map(t => `${t.start} - ${t.stop}` ).join(', ')
+
+    const heatingTimesText = () => {
+        if (heatingTimes.length > 0) {
+            return heatingTimes.map(t => `${t.start} - ${t.stop}` ).join(', ')
+        } else {
+            return 'Keine Heizzeiten'
+        }
+    }
 
     const showWeekdayPage = () => {
         navigator.pushPage({
@@ -20,7 +27,7 @@ const WeekdayListItem = observer(({heatingTimes, weekDayIndex}, {navigator}) => 
                 {weekDayName}
             </div>
             <div className="center" style={{ fontSize: 10 }}>
-                {heatingTimesText}
+                {heatingTimesText()}
             </div>
         </ListItem>
     )
