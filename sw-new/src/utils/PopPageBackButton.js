@@ -4,6 +4,10 @@ import {BackButton} from 'react-onsenui';
 const PopPageBackButton = (props, {navigator}) => {
 
     const goBack = () => {
+        if (props.confirm && !props.confirm()) {
+            return
+        }
+
         navigator.popPage()
     }
 

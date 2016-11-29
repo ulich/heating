@@ -33,7 +33,7 @@ export default class Backend {
     }
 
     get baseUrl() {
-        return process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : ''
+        return process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:4000` : ''
     }
 
 }
