@@ -4,6 +4,7 @@ import {Toolbar, List, Icon} from 'react-onsenui';
 import LoadingAwarePage from '../../utils/LoadingAwarePage';
 import PopPageBackButton from '../../utils/PopPageBackButton';
 import FabButton from '../../utils/FabButton';
+import {store} from '../../Store';
 import HeatingTime from './HeatingTime';
 
 const WeekdayPage = observer(({weekDayName, heatingTimes}) => {
@@ -33,6 +34,7 @@ const WeekdayPage = observer(({weekDayName, heatingTimes}) => {
             Object.assign(time, heatingTimeComponents[i].form.getModel())
         })
 
+        store.saveConfigIfChanged()
         return true
     }
 

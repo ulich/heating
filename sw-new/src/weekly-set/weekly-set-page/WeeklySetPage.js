@@ -12,8 +12,8 @@ const WeeklySetPage = observer(({weeklySet}) => {
     store.autoSave = false
 
     const confirmBackPress = () => {
-        store.autoSave = true
         store.saveConfigIfChanged()
+        store.autoSave = true
         return true
     }
 

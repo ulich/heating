@@ -4,7 +4,7 @@ import {backend} from './Backend';
 class Store {
 
     autoSave = false
-    unsavedChanges = false
+    savedConfig = {}
 
     constructor() {
         extendObservable(this, {
@@ -26,9 +26,7 @@ class Store {
 
         reaction(() => toJS(this.config), (config) => {
             if (this.autoSave) {
-                this.saveConfig(config)
-            } else {
-                this.unsavedChanges = true
+                this.saveConfigIfChanged(config)
             }
         })
     }
@@ -63,9 +61,10 @@ class Store {
         return this.config.weekly.sets[this.config.weekly.sets.length - 1]
     }
 
-    saveConfigIfChanged() {
-        if (this.unsavedChanges) {
-            this.saveConfig(toJS(this.config))
+    saveConfigIfChanged(config) {
+        if (this.hasUnsavedChanges()) {
+            config = config || toJS(this.config) 
+            this.saveConfig(toJS(config))
         }
     }
 
@@ -76,14 +75,19 @@ class Store {
 
         // TODO: show errors in a popup or so, or they are only displayed on main view
         backend.setConfig(config)
-            .then(() => {
+            .then((response) => {
                 this.loading = false
-                this.unsavedChanges = false
+                this.savedConfig = response.config
             })
+    }
+
+    hasUnsavedChanges() {
+        return JSON.stringify(this.savedConfig) !== JSON.stringify(toJS(this.config))
     }
 
     applyFromServer(response) {
         this.autoSave = false
+        this.savedConfig = JSON.parse(JSON.stringify(response.config))
         this.config = response.config
         this.status = response.status
         this.autoSave = true
