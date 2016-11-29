@@ -61,6 +61,11 @@ class Store {
         return this.config.weekly.sets[this.config.weekly.sets.length - 1]
     }
 
+    deleteWeeklySet(set) {
+        const i = this.config.weekly.sets.indexOf(set)
+        this.config.weekly.sets.splice(i, 1)
+    }
+
     saveConfigIfChanged(config) {
         if (this.hasUnsavedChanges()) {
             config = config || toJS(this.config) 

@@ -1,19 +1,23 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Toolbar, List, ListHeader, Input} from 'react-onsenui';
+import {Toolbar, List, ListHeader, Input, Button} from 'react-onsenui';
 import LoadingAwarePage from '../../utils/LoadingAwarePage';
 import PopPageBackButton from '../../utils/PopPageBackButton';
 import WeekdayListItem from './WeekdayListItem';
 import {store} from '../../Store';
 
 
-const WeeklySetPage = observer(({weeklySet}) => {
+const WeeklySetPage = observer(({weeklySet}, {navigator}) => {
 
     store.autoSave = false
 
-    const confirmBackPress = () => {
+    const onPageLeave = () => {
         store.saveConfigIfChanged()
         store.autoSave = true
+    }
+
+    const confirmBackPress = () => {
+        onPageLeave()
         return true
     }
 
@@ -32,6 +36,14 @@ const WeeklySetPage = observer(({weeklySet}) => {
         return weekdaysShallowCopy
     }
 
+    const deleteWeeklySet = () => {
+        if (confirm("Wirklich löschen?")) {
+            store.deleteWeeklySet(weeklySet)
+            onPageLeave()
+            navigator.popPage()
+        }
+    }
+
     return (
         <LoadingAwarePage renderToolbar={renderToolbar}>
             <section style={{margin: '30px 15px 15px 15px'}}>
@@ -46,7 +58,14 @@ const WeeklySetPage = observer(({weeklySet}) => {
             <List dataSource={mondayFirst(weeklySet.weekdays)}
                   renderHeader={() => <ListHeader>Wochentage</ListHeader>}
                   renderRow={(row, i) => <WeekdayListItem heatingTimes={row} weekDayIndex={i} key={i} />} />
+
+            <div style={{ margin: '40px 15px' }}>
+                <Button modifier="large" style={{ backgroundColor: '#f44336' }} onClick={deleteWeeklySet}>Löschen</Button>
+            </div>
         </LoadingAwarePage>
     )
 })
+WeeklySetPage.contextTypes = {
+    navigator: React.PropTypes.object.isRequired
+}
 export default WeeklySetPage
