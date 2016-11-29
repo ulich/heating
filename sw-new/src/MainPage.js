@@ -5,6 +5,7 @@ import LoadingAwarePage from './utils/LoadingAwarePage';
 import FabButton from './utils/FabButton';
 import WeeklySetList from './weekly-set/weekly-set-list/WeeklySetList';
 import WeeklySetPage from './weekly-set/weekly-set-page/WeeklySetPage';
+import HeatingStatus from './heating-status/HeatingStatus';
 import {store} from './Store';
 
 
@@ -31,6 +32,7 @@ export default observer(class MainPage extends React.Component {
         return (
             <Toolbar>
                 <div className="center">Heizung</div>
+                <div className="right"><HeatingStatus /></div>
             </Toolbar>
         )
     }

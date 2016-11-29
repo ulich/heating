@@ -29,6 +29,8 @@ class Store {
                 this.saveConfigIfChanged(config)
             }
         })
+
+        this.pollStatus()
     }
 
     load() {
@@ -48,6 +50,14 @@ class Store {
                 this.error = error
                 console.error(error)
             })
+    }
+
+    pollStatus() {
+        setInterval(() => {
+            backend.getStatus().then((response) => {
+                this.status.enabled = response.enabled
+            })
+        }, 10 * 1000)
     }
 
     addWeeklySet() {

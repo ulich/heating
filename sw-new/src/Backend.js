@@ -9,6 +9,10 @@ export default class Backend {
         return this.request('setConfig', config)
     }
 
+    getStatus() {
+        return this.request('getStatus')
+    }
+
     request(cmd, params) {
         return fetch(`${this.baseUrl}/api.lua`, {
             method: 'POST',

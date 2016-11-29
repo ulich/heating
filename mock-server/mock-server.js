@@ -49,6 +49,10 @@ const state = {
     }
 }
 
+setInterval(() => {
+    state.status.enabled = state.config.weekly.activeSet !== 1
+}, 1000 * 5)
+
 app.post('/api.lua', function (req, res) {
     setTimeout(() => {
         switch (req.body.cmd) {
@@ -56,9 +60,7 @@ app.post('/api.lua', function (req, res) {
                 res.json(response(state))
                 break
             case 'getStatus':
-                res.json(response({
-                    status: state.status
-                }))
+                res.json(response(state.status))
                 break
             case 'setConfig':
                 state.config = req.body.params
