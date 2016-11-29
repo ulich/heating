@@ -46,7 +46,7 @@ const WeeklySetPage = observer(({weeklySet}, {navigator}) => {
 
     return (
         <LoadingAwarePage renderToolbar={renderToolbar}>
-            <section style={{margin: '30px 15px 15px 15px'}}>
+            <section style={{margin: '30px 15px 30px 15px'}}>
                 <Input value={weeklySet.name}
                        onChange={(e) => weeklySet.name = e.target.value}
                        placeholder="Name"
