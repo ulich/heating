@@ -4,14 +4,23 @@ import {Toolbar, List, ListHeader, Input} from 'react-onsenui';
 import LoadingAwarePage from '../../utils/LoadingAwarePage';
 import PopPageBackButton from '../../utils/PopPageBackButton';
 import WeekdayListItem from './WeekdayListItem';
+import {store} from '../../Store';
 
 
 const WeeklySetPage = observer(({weeklySet}) => {
 
+    store.autoSave = false
+
+    const confirmBackPress = () => {
+        store.autoSave = true
+        store.saveConfigIfChanged()
+        return true
+    }
+
     const renderToolbar = () => {
         return (
             <Toolbar>
-                <div className='left'><PopPageBackButton /></div>
+                <div className='left'><PopPageBackButton confirm={confirmBackPress} /></div>
                 <div className="center">{weeklySet.name}</div>
             </Toolbar>
         )

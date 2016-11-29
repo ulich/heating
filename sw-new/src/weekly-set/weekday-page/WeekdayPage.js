@@ -5,13 +5,10 @@ import LoadingAwarePage from '../../utils/LoadingAwarePage';
 import PopPageBackButton from '../../utils/PopPageBackButton';
 import FabButton from '../FabButton';
 import HeatingTime from './HeatingTime';
-import {store} from '../../Store';
 
 const WeekdayPage = observer(({weekDayName, heatingTimes}) => {
     
     const heatingTimeComponents = heatingTimes.map((h) => null)
-
-    store.autoSave = false
 
     const addHeatingTime = () => {
         heatingTimes.push({ start: "", stop: "" })
@@ -36,8 +33,6 @@ const WeekdayPage = observer(({weekDayName, heatingTimes}) => {
             Object.assign(time, heatingTimeComponents[i].form.getModel())
         })
 
-        store.autoSave = true
-        store.saveConfig()
         return true
     }
 
