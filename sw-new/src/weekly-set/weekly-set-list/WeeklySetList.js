@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {List, ListHeader} from 'react-onsenui';
+import {List, ListHeader, Icon} from 'react-onsenui';
 import WeeklySetListItem from './WeeklySetListItem';
 
 const WeeklySetList = observer(({weeklyConfig}) => {
@@ -17,7 +17,7 @@ const WeeklySetList = observer(({weeklyConfig}) => {
 
     return (
         <List dataSource={weeklyConfig.sets.slice()}
-              renderHeader={() => <ListHeader>Heiz-Konfiguration</ListHeader>}
+              renderHeader={() => <ListHeader><Icon icon="md-calendar" /> &nbsp; Wochen-Konfigurationen</ListHeader>}
               renderRow={(set, i) => <RowRenderer set={set} i={i} key={i} />} />
     )
 })

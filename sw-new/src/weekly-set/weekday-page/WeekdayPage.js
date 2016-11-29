@@ -3,7 +3,7 @@ import {observer} from 'mobx-react';
 import {Toolbar, List, Icon} from 'react-onsenui';
 import LoadingAwarePage from '../../utils/LoadingAwarePage';
 import PopPageBackButton from '../../utils/PopPageBackButton';
-import FabButton from '../FabButton';
+import FabButton from '../../utils/FabButton';
 import HeatingTime from './HeatingTime';
 
 const WeekdayPage = observer(({weekDayName, heatingTimes}) => {

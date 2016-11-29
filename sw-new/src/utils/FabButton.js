@@ -7,7 +7,7 @@ const FabButton = (props) =>
          ripple={true}
          style={{backgroundColor: ons.platform.isIOS() ? '#4282cc' : null}}
          {...props}>
-        
+
         {props.children}
     </Fab>
 
