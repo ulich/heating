@@ -41,11 +41,9 @@ class Store {
                 this.loading = false
                 this.error = null
 
-                this.config = response.config
-                this.status = response.status
+                this.applyFromServer(response)
 
                 this.loaded = true
-                this.autoSave = true
             })
             .catch((error) => {
                 this.loading = false
@@ -76,12 +74,19 @@ class Store {
 
         this.loading = true
 
-        // TODO: implement real save
         // TODO: show errors in a popup or so, or they are only displayed on main view
-        setTimeout(() => {
-            this.loading = false
-            this.unsavedChanges = false
-        }, 1000)
+        backend.setConfig(config)
+            .then(() => {
+                this.loading = false
+                this.unsavedChanges = false
+            })
+    }
+
+    applyFromServer(response) {
+        this.autoSave = false
+        this.config = response.config
+        this.status = response.status
+        this.autoSave = true
     }
 }
 

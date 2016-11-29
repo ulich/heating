@@ -3,19 +3,16 @@ export default class Backend {
 
     getConfigAndStatus() {
         return this.request('getConfigAndStatus')
-            .then((response) => {
-                response.config.weekly.sets.forEach((set) => {
-                    // the backend stores sunday as first element, move sunday to the end so monday is first
-                    set.weekdays.push(set.weekdays.shift())
-                })
-                return response
-            })
     }
 
-    request(command) {
+    setConfig(config) {
+        return this.request('setConfig', config)
+    }
+
+    request(cmd, params) {
         return fetch(`${this.baseUrl}/api.lua`, {
             method: 'POST',
-            body: JSON.stringify({ cmd: command }),
+            body: JSON.stringify({ cmd, params }),
             headers: new Headers({
                 'Content-Type': 'application/json'
             })

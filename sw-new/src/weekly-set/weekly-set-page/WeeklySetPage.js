@@ -26,6 +26,12 @@ const WeeklySetPage = observer(({weeklySet}) => {
         )
     }
 
+    const mondayFirst = (weekdays) => {
+        const weekdaysShallowCopy = weekdays.slice()
+        weekdaysShallowCopy.push(weekdaysShallowCopy.shift())
+        return weekdaysShallowCopy
+    }
+
     return (
         <LoadingAwarePage renderToolbar={renderToolbar}>
             <section style={{margin: '30px 15px 15px 15px'}}>
@@ -37,7 +43,7 @@ const WeeklySetPage = observer(({weeklySet}) => {
                        style={{width: '100%'}} />
             </section>
 
-            <List dataSource={weeklySet.weekdays.slice()}
+            <List dataSource={mondayFirst(weeklySet.weekdays)}
                   renderHeader={() => <ListHeader>Wochentage</ListHeader>}
                   renderRow={(row, i) => <WeekdayListItem heatingTimes={row} weekDayIndex={i} key={i} />} />
         </LoadingAwarePage>

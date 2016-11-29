@@ -10,55 +10,60 @@ app.use(bodyParser.json())
 app.use(cors())
 app.use(express.static('../sw/src/app'))
 
+const state = {
+    config: {
+        mode: 'timed',
+        weekly: {
+            sets: [{
+                name: 'Always on',
+                weekdays: [
+                    [{start: "00:00", stop: "23:59"}],
+                    [{start: "00:00", stop: "23:59"}],
+                    [{start: "00:00", stop: "23:59"}],
+                    [{start: "00:00", stop: "23:59"}],
+                    [{start: "00:00", stop: "23:59"}],
+                    [{start: "00:00", stop: "23:59"}],
+                    [{start: "00:00", stop: "23:59"}]
+                ]
+            }, {
+                name: 'Always off',
+                weekdays: [ [], [], [], [], [], [], [] ]
+            }, {
+                name: 'Normal',
+                weekdays: [
+                    [{start: "08:00", stop: "22:00"}],
+                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
+                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
+                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
+                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
+                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
+                    [{start: "08:00", stop: "22:00"}],
+                ]
+            }],
+            activeSet: 1
+        },
+        specials: []
+    },
+    status: {
+        enabled: false
+    }
+}
+
 app.post('/api.lua', function (req, res) {
     setTimeout(() => {
         switch (req.body.cmd) {
             case 'getConfigAndStatus':
-                res.json(response({
-                    config: {
-                        mode: 'timed',
-                        weekly: {
-                            sets: [{
-                                name: 'Always on',
-                                weekdays: [ 
-                                    [{start: "00:00", stop: "23:59"}],
-                                    [{start: "00:00", stop: "23:59"}],
-                                    [{start: "00:00", stop: "23:59"}], 
-                                    [{start: "00:00", stop: "23:59"}], 
-                                    [{start: "00:00", stop: "23:59"}], 
-                                    [{start: "00:00", stop: "23:59"}], 
-                                    [{start: "00:00", stop: "23:59"}]
-                                ]
-                            }, {
-                                name: 'Always off',
-                                weekdays: [ [], [], [], [], [], [], [] ]
-                            }, {
-                                name: 'Normal',
-                                weekdays: [ 
-                                    [{start: "08:00", stop: "22:00"}],
-                                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
-                                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
-                                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
-                                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
-                                    [{start: "06:00", stop: "08:00"}, {start: "16:00", stop: "22:00"}],
-                                    [{start: "08:00", stop: "22:00"}],
-                                ]
-                            }],
-                            activeSet: 1
-                        },
-                        specials: []
-                    },
-                    status: {
-                        enabled: false
-                    }
-                }))
+                res.json(response(state))
                 break
             case 'getStatus':
                 res.json(response({
-                    status: {
-                        enabled: false
-                    }
+                    status: state.status
                 }))
+                break
+            case 'setConfig':
+                state.config = req.body.params
+                res.json(response(state))
+                console.log("Config is now", state.config)
                 break
             default:
                 res.status(404).send({ error: "Unknown command" })
