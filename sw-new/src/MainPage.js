@@ -1,41 +1,27 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Toolbar, SpeedDial, SpeedDialItem, Icon} from 'react-onsenui';
-import LoadingAwarePage from './utils/LoadingAwarePage';
-import FabButton from './utils/FabButton';
-import WeeklySetList from './weekly-set/weekly-set-list/WeeklySetList';
-import WeeklySetPage from './weekly-set/weekly-set-page/WeeklySetPage';
+import LoadingAwareAppBar from './utils/LoadingAwareAppBar';
+//import FabButton from './utils/FabButton';
+//import WeeklySetList from './weekly-set/weekly-set-list/WeeklySetList';
+//import WeeklySetPage from './weekly-set/weekly-set-page/WeeklySetPage';
 import HeatingStatus from './heating-status/HeatingStatus';
 import {store} from './Store';
 
 
 export default observer(class MainPage extends React.Component {
 
-    static contextTypes = {
-        navigator: React.PropTypes.object.isRequired
-    }
-
     componentDidMount() {
         store.load()
     }
 
-    addWeeklySet() {
-        store.autoSave = false
-        const set = store.addWeeklySet()
+    // addWeeklySet() {
+    //     store.autoSave = false
+    //     const set = store.addWeeklySet()
 
-        this.context.navigator.pushPage({
-            render: () => <WeeklySetPage weeklySet={set} />,
-        })
-    }
-
-    renderToolbar() {
-        return (
-            <Toolbar>
-                <div className="center">Heizung</div>
-                <div className="right"><HeatingStatus /></div>
-            </Toolbar>
-        )
-    }
+    //     this.context.navigator.pushPage({
+    //         render: () => <WeeklySetPage weeklySet={set} />,
+    //     })
+    // }
 
     content() {
         if (!store.loaded) {
@@ -43,6 +29,7 @@ export default observer(class MainPage extends React.Component {
         } else {
             return (
                 <div>
+                {/*
                     <WeeklySetList weeklyConfig={store.config.weekly} />
                     <SpeedDial position="bottom right">
                         <FabButton>
@@ -55,6 +42,7 @@ export default observer(class MainPage extends React.Component {
                             <Icon icon="md-calendar" />
                         </SpeedDialItem>
                     </SpeedDial>
+                */}
                 </div>
             )
         }
@@ -62,9 +50,10 @@ export default observer(class MainPage extends React.Component {
 
     render() {
         return (
-            <LoadingAwarePage renderToolbar={this.renderToolbar.bind(this)}>
+            <div>
+                <LoadingAwareAppBar title="Heizung" iconElementRight={<HeatingStatus />} />
                 {this.content()}
-            </LoadingAwarePage>
+            </div>
         )
     }
 

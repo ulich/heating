@@ -1,5 +1,5 @@
 import {extendObservable, reaction, toJS} from 'mobx';
-import ons from 'onsenui';
+// import ons from 'onsenui';
 import {backend} from './Backend';
 
 class Store {
@@ -46,7 +46,7 @@ class Store {
             })
             .catch((error) => {
                 this.loading = false
-                ons.notification.alert(`Bitte lade die Seite neu. Details: ${error.message}`, { title: 'Oops. Da ist etwas schiefgelaufen'})
+                // ons.notification.alert(`Bitte lade die Seite neu. Details: ${error.message}`, { title: 'Oops. Da ist etwas schiefgelaufen'})
             })
     }
 
@@ -93,7 +93,7 @@ class Store {
             })
             .catch((error) => {
                 this.loading = false
-                ons.notification.alert(`Bitte versuche es erneut. Details: ${error.message}`, { title: 'Oops. Da ist etwas schiefgelaufen'})
+                // ons.notification.alert(`Bitte versuche es erneut. Details: ${error.message}`, { title: 'Oops. Da ist etwas schiefgelaufen'})
             })
     }
 

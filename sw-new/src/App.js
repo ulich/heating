@@ -1,19 +1,12 @@
 import React from 'react';
-import {Navigator} from 'react-onsenui';
-import 'onsenui/css/onsenui.css';
-import 'onsenui/css/onsen-css-components.css';
-import NavigatorProvider from './utils/NavigatorProvider';
 import MainPage from './MainPage';
 
-
-const renderPage = (route, navigator) =>
-    <NavigatorProvider navigator={navigator} key={route.render}>
-        {route.render()}
-    </NavigatorProvider>
-
+import { Router, Route, browserHistory } from 'react-router'
 
 const App = () =>
-    <Navigator renderPage={renderPage}
-               initialRoute={{render: () => <MainPage />}} />
+    <Router history={browserHistory}>
+        <Route path="/" component={MainPage}>
+        </Route>
+    </Router>
 
 export default App
