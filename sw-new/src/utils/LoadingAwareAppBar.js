@@ -4,11 +4,13 @@ import AppBar from 'material-ui/AppBar';
 import LinearProgress from 'material-ui/LinearProgress';
 import {store} from '../Store';
 
-const LoadingAwareAppBar = observer((props) =>
-    <div>
-        <AppBar {...props} iconElementLeft={<div/>} />
-        <LinearProgress mode={store.loading ? 'indeterminate' : 'determinate'} value={100} />
-    </div>
-)
+function LoadingAwareAppBar(props) {
+    return (
+        <div>
+            <AppBar iconElementLeft={<div/>} {...props} />
+            <LinearProgress mode={store.loading ? 'indeterminate' : 'determinate'} value={100} />
+        </div>
+    )
+}
 
-export default LoadingAwareAppBar
+export default observer(LoadingAwareAppBar)

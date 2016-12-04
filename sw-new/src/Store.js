@@ -30,6 +30,7 @@ class Store {
             }
         })
 
+        this.load()
         this.pollStatus()
     }
 
@@ -66,7 +67,7 @@ class Store {
             ]
         })
 
-        return this.config.weekly.sets[this.config.weekly.sets.length - 1]
+        return this.config.weekly.sets.length - 1
     }
 
     deleteWeeklySet(set) {
