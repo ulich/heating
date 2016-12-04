@@ -40,8 +40,6 @@ export default observer(class MainPage extends React.Component {
     content() {
         if (!store.loaded) {
             return null
-        } else if (store.error) {
-            return <div><p>Es ist ein Fehler aufgetreten:</p><p>{store.error.message}</p></div>
         } else {
             return (
                 <div>

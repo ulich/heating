@@ -1,4 +1,5 @@
 import {extendObservable, reaction, toJS} from 'mobx';
+import ons from 'onsenui';
 import {backend} from './Backend';
 
 class Store {
@@ -10,7 +11,6 @@ class Store {
         extendObservable(this, {
             loaded: false,
             loading: true,
-            error: null,
             config: {
                 mode: 'timed',
                 weekly: {
@@ -39,16 +39,14 @@ class Store {
         backend.getConfigAndStatus()
             .then((response) => {
                 this.loading = false
-                this.error = null
-
+                
                 this.applyFromServer(response)
 
                 this.loaded = true
             })
             .catch((error) => {
                 this.loading = false
-                this.error = error
-                console.error(error)
+                ons.notification.alert(`Bitte lade die Seite neu. Details: ${error.message}`, { title: 'Oops. Da ist etwas schiefgelaufen'})
             })
     }
 
@@ -88,11 +86,14 @@ class Store {
 
         this.loading = true
 
-        // TODO: show errors in a popup or so, or they are only displayed on main view
         backend.setConfig(config)
             .then((response) => {
                 this.loading = false
                 this.savedConfig = response.config
+            })
+            .catch((error) => {
+                this.loading = false
+                ons.notification.alert(`Bitte versuche es erneut. Details: ${error.message}`, { title: 'Oops. Da ist etwas schiefgelaufen'})
             })
     }
 
