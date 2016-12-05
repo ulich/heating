@@ -2,10 +2,17 @@ import React from 'react';
 import {hashHistory} from 'react-router';
 import IconButton from 'material-ui/IconButton';
 
-function BackButton({route}) {
+function BackButton({confirm, route}) {
+
+    const onClick = () => {
+        if (!confirm || confirm()) {
+            hashHistory.push(route)
+        }
+    }
+
     return (
         <IconButton iconClassName="material-icons"
-                    onClick={() => hashHistory.push(route)}
+                    onClick={onClick}
                     iconStyle={{ color: 'white' }}>
             arrow_back
         </IconButton>

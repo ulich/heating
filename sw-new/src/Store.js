@@ -72,6 +72,14 @@ class Store {
 
     deleteWeeklySet(set) {
         const i = this.config.weekly.sets.indexOf(set)
+        
+        if (this.config.weekly.sets.length === 1) {
+            this.config.weekly.activeSet = null
+        }
+        else if (i === this.config.weekly.activeSet) {
+            this.config.weekly.activeSet = 0
+        }
+
         this.config.weekly.sets.splice(i, 1)
     }
 
@@ -103,11 +111,12 @@ class Store {
     }
 
     applyFromServer(response) {
+        const lastAutoSave = this.autoSave
         this.autoSave = false
         this.savedConfig = JSON.parse(JSON.stringify(response.config))
         this.config = response.config
         this.status = response.status
-        this.autoSave = true
+        this.autoSave = lastAutoSave
     }
 }
 

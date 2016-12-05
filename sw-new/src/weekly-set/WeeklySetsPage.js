@@ -12,24 +12,24 @@ import WeeklySetName from './WeeklySetName';
 
 function WeeklySetsPage({router}) {
 
-    const showWeeklySetPage = (i) => {
-        router.push(`/sets/${i}`)
+    const showWeeklySetPage = (index) => {
+        router.push(`/sets/${index}`)
     }
 
     const addWeeklySet = () => {
         store.autoSave = false
-        const i = store.addWeeklySet()
+        const index = store.addWeeklySet()
 
-        router.push(`/sets/${i}`)
+        router.push(`/sets/${index}`)
     }
 
-    const renderListItem = (set, i) => {
+    const renderListItem = (set, index) => {
         return (
-            <div key={i}>
-                {(i === 0) ? null : <Divider />}
+            <div key={index}>
+                {(index === 0) ? null : <Divider />}
                 <ListItem primaryText={<WeeklySetName name={set.name} />}
                           rightIcon={<FontIcon className="material-icons">create</FontIcon>}
-                          onClick={() => showWeeklySetPage(i)}></ListItem>
+                          onClick={() => showWeeklySetPage(index)}></ListItem>
             </div>
         )
     }
