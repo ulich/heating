@@ -9,18 +9,19 @@ import LoadingAwareAppBar from '../utils/LoadingAwareAppBar';
 import BackButton from '../utils/BackButton';
 import {store} from '../Store';
 import WeeklySetName from './WeeklySetName';
+import {mondayFirst, weekdayNames} from './Weekday';
 
 
 function WeeklySetPage({router}) {
 
     store.autoSave = false
 
-    const weeklySetIndex = router.params.index
+    const weeklySetIndex = parseInt(router.params.weeklySetIndex, 10)
     if (weeklySetIndex >= store.config.weekly.sets.length) {
         return null
     }
 
-    const weeklySet = store.config.weekly.sets[parseInt(weeklySetIndex, 10)]
+    const weeklySet = store.config.weekly.sets[weeklySetIndex]
 
     const onPageLeave = () => {
         store.saveConfigIfChanged()
@@ -32,8 +33,8 @@ function WeeklySetPage({router}) {
         return true
     }
 
-    const showWeekdayPage = (weekDayIndex) => {
-        router.push(`/sets/${weeklySetIndex}/weekday/${weekDayIndex}`)
+    const showWeekdayPage = (weekdayIndex) => {
+        router.push(`/sets/${weeklySetIndex}/weekdays/${weekdayIndex}`)
     }
 
     const deleteWeeklySet = () => {
@@ -71,15 +72,7 @@ export default withRouter(observer(WeeklySetPage))
 
 
 
-const weekDayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag']
-
 function WeekdayList({weekdays, onClickWeekday}) {
-
-    const mondayFirst = (weekdays) => {
-        const weekdaysShallowCopy = weekdays.slice()
-        weekdaysShallowCopy.push(weekdaysShallowCopy.shift())
-        return weekdaysShallowCopy
-    }
 
     const heatingTimesText = (heatingTimes) => {
         if (heatingTimes.length > 0) {
@@ -93,10 +86,10 @@ function WeekdayList({weekdays, onClickWeekday}) {
         return (
             <div key={index}>
                 {(index === 0) ? null : <Divider />}
-                <ListItem key={index} onClick={() => onClickWeekday(index)}>
+                <ListItem onClick={() => onClickWeekday(index)}>
                     <div style={{ display: 'flex' }}>
                         <div style={{ width: 100 }}>
-                            {weekDayNames[index] || '?'}
+                            {weekdayNames[index] || '?'}
                         </div>
                         <div style={{ fontSize: 10, flex: '1 1' }}>
                             {heatingTimesText(weekday)}
