@@ -14,7 +14,7 @@ export default class Backend {
     }
 
     request(cmd, params) {
-        return fetch(`${this.baseUrl}/api.lua`, {
+        return fetch('/api.lua', {
             method: 'POST',
             body: JSON.stringify({ cmd, params }),
             headers: new Headers({
@@ -32,11 +32,6 @@ export default class Backend {
             return response.response
         })
     }
-
-    get baseUrl() {
-        return process.env.NODE_ENV === 'development' ? `http://${window.location.hostname}:4000` : ''
-    }
-
 }
 
 const backend = new Backend()
