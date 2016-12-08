@@ -21,7 +21,7 @@ function WeeklySetList({weeklyConfig, router}) {
 
     const renderListItem = (set, i) => {
         return (
-            <RadioButton key={i} value={i} label={<WeeklySetName name={set.name} />} style={{ marginBottom: 30, marginLeft: 20 }}></RadioButton>
+            <RadioButton key={i} value={i} label={<WeeklySetName name={set.name} />} style={{ marginBottom: 30, paddingLeft: 20, width: 'auto', whiteSpace: 'nowrap' }}></RadioButton>
         )
     }
 
