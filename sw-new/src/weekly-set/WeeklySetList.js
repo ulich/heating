@@ -4,9 +4,12 @@ import {observer} from 'mobx-react';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
+import {store} from '../Store';
 import WeeklySetName from './WeeklySetName';
 
 function WeeklySetList({weeklyConfig, router}) {
+
+    store.autoSave = true
 
     const selectSet = (i) => {
         weeklyConfig.activeSet = i
