@@ -1,6 +1,8 @@
 
 export default class Backend {
 
+    username = 'root'
+
     getConfigAndStatus() {
         return this.request('getConfigAndStatus')
     }
@@ -18,11 +20,15 @@ export default class Backend {
             method: 'POST',
             body: JSON.stringify({ cmd, params }),
             headers: new Headers({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic ' + this.getCredentials()
             })
         }).then((response) => {
             if (!response.ok) {
-                throw new Error(`Error: HTTP ${response.status} received`)
+                if (response.status === 401) {
+                    throw response
+                } 
+                throw new Error(`HTTP ${response.status} received`)
             }
             return response.json()
         }).then((response) => {
@@ -31,6 +37,15 @@ export default class Backend {
             }
             return response.response
         })
+    }
+
+    setPassword(newValue) {
+        this.credentials = btoa(`${this.username}:${newValue}`)
+        localStorage.credentials = this.credentials
+    }
+
+    getCredentials() {
+        return this.credentials || localStorage.credentials || btoa(`${this.username}:unknown`)
     }
 }
 

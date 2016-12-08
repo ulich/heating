@@ -1,5 +1,5 @@
 import {extendObservable, reaction, toJS} from 'mobx';
-// import ons from 'onsenui';
+import {hashHistory} from 'react-router';
 import {backend} from './Backend';
 
 class Store {
@@ -31,24 +31,22 @@ class Store {
         })
 
         this.load()
-        this.pollStatus()
     }
 
     load() {
         this.loading = true
 
-        backend.getConfigAndStatus()
+        return backend.getConfigAndStatus()
             .then((response) => {
                 this.loading = false
                 
                 this.applyFromServer(response)
 
                 this.loaded = true
+
+                this.pollStatus()
             })
-            .catch((error) => {
-                this.loading = false
-                // ons.notification.alert(`Bitte lade die Seite neu. Details: ${error.message}`, { title: 'Oops. Da ist etwas schiefgelaufen'})
-            })
+            .catch(this.handleError.bind(this))
     }
 
     pollStatus() {
@@ -100,10 +98,7 @@ class Store {
                 this.loading = false
                 this.savedConfig = response.config
             })
-            .catch((error) => {
-                this.loading = false
-                // ons.notification.alert(`Bitte versuche es erneut. Details: ${error.message}`, { title: 'Oops. Da ist etwas schiefgelaufen'})
-            })
+            .catch(this.handleError.bind(this))
     }
 
     hasUnsavedChanges() {
@@ -117,6 +112,18 @@ class Store {
         this.config = response.config
         this.status = response.status
         this.autoSave = lastAutoSave
+    }
+
+    handleError(error) {
+        this.loading = false
+
+        if (error.status && error.status === 401) {
+            hashHistory.push('/login')
+        } else {
+            alert(`Bitte lade die Seite neu. Details: ${error.message}`)
+        }
+
+        throw error
     }
 }
 

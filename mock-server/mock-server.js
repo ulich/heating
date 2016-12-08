@@ -1,12 +1,14 @@
 var express = require('express')
 var morgan = require('morgan')
 var bodyParser = require('body-parser')
+var basicAuth = require('basic-auth-connect')
 
 var app = express()
 
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(express.static('../sw/src/app'))
+app.use(basicAuth('root', 'secret'));
 
 const state = {
     config: {
