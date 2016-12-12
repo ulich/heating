@@ -42,7 +42,10 @@ const state = {
             }],
             activeSet: 1
         },
-        specials: []
+        specials: [
+            { start: 1514091600000, stop: 1514754000000, enabled: false },
+            { start: 1515091600000, stop: 1515754000000, enabled: true }
+        ]
     },
     status: {
         enabled: false

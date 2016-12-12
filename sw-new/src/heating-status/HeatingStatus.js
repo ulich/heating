@@ -1,19 +1,16 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import Paper from 'material-ui/Paper';
-import {store} from '../Store';
 
-const HeatingStatus = observer(() => {
-    if (!store.loaded) {
-        return null
-    }
+const HeatingStatus = observer(({enabled, style}) => {
 
-    const style = {
-        backgroundColor: store.status.enabled ? '#05ef4b' : '#f40000',
+    const defaultStyle = {
+        backgroundColor: enabled ? '#05ef4b' : '#f40000',
         width: 16,
-        height: 16,
-        margin: 15
+        height: 16
     }
+
+    style = Object.assign(defaultStyle, style)
 
     return <Paper style={style} zDepth={2} circle={true} />
 })
