@@ -33,7 +33,7 @@ export default observer(MainPage)
 
 function MainHeatingStatus() {
     if (store.loaded) {
-        return <HeatingStatus enabled={store.status.enabled} style={{ margin: 15 }} />
+        return <HeatingStatus status={store.status} style={{ margin: 15 }} />
     } else {
         return null
     }

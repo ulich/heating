@@ -24,7 +24,7 @@ function SpecialTimes({specialTimes, router}) {
                           rightIcon={<FontIcon className="material-icons">create</FontIcon>}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div style={{ flex: '0 0', marginRight: 20 }}>
-                            <HeatingStatus enabled={special.enabled} />
+                            <HeatingStatus status={special} />
                         </div>
                         <div style={{ flex: '1 1' }}>
                             <FromTo label="Von">{formatDate(special.start)}</FromTo>
