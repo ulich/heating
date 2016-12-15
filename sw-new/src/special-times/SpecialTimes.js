@@ -3,9 +3,10 @@ import {withRouter} from 'react-router';
 import {observer} from 'mobx-react';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import FontIcon from 'material-ui/FontIcon';
+import {SpeedDial, SpeedDialItem} from 'react-mui-speeddial';
 import {store} from '../Store';
 import HeatingStatus from '../heating-status/HeatingStatus';
+import Icon from '../utils/Icon';
 import {padTo2} from '../utils/StringUtils';
 
 function SpecialTimes({specialTimes, router}) {
@@ -16,12 +17,19 @@ function SpecialTimes({specialTimes, router}) {
         router.push(`/specials/${index}`)
     }
 
+    const addSpecialHeatingTime = () => {
+        store.autoSave = false
+        const index = store.addSpecialHeatingTime()
+
+        router.push(`/specials/${index}`)
+    }
+
     const renderListItem = (special, index) => {
         return (
             <div key={index}>
                 {(index === 0) ? null : <Divider />}
                 <ListItem onClick={() => showSpecialTimesPage(index)}
-                          rightIcon={<FontIcon className="material-icons">create</FontIcon>}>
+                          rightIcon={<Icon name="create" />}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div style={{ flex: '0 0', marginRight: 20 }}>
                             <HeatingStatus status={special} />
@@ -39,12 +47,19 @@ function SpecialTimes({specialTimes, router}) {
     return (
         <div style={{ color: '#777', marginTop: 50 }}>
             <div style={{ margin: '10px 10px 0 10px', fontSize: 14}}>
-                <FontIcon className="material-icons" style={{ fontSize: 14, marginRight: 5 }}>beach_access</FontIcon>
+                <Icon name="beach_access" style={{ fontSize: 14, marginRight: 5 }} />
                 Spezielle Heizzeiten
             </div>
             <List>
                 {specialTimes.map(renderListItem)}
             </List>
+            <div style={{ position: 'absolute', bottom: 30, right: 30 }}>
+                <SpeedDial fabContentOpen={<Icon name="add" />} effect="slide">
+                    <SpeedDialItem fabContent={<Icon name="beach_access" />}
+                                   label="Spezielle Heizzeit"
+                                   onTouchTap={addSpecialHeatingTime} />
+                </SpeedDial>
+            </div>
         </div>
     )
 }

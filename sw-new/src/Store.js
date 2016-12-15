@@ -81,6 +81,16 @@ class Store {
         this.config.weekly.sets.splice(i, 1)
     }
 
+    addSpecialHeatingTime() {
+        this.config.specials.push({
+            enabled: false,
+            start: new Date().getTime(),
+            stop: new Date().getTime() + 1000 * 60 * 60 * 24
+        })
+
+        return this.config.specials.length - 1
+    }
+
     deleteSpecialTime(index) {
         this.config.specials.splice(index, 1)
     }

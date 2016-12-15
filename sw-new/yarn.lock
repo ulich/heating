@@ -4299,6 +4299,10 @@ react-event-listener@^0.4.0:
     react-addons-shallow-compare "^0.14.0 || ^15.0.0"
     warning "^3.0.0"
 
+react-mui-speeddial@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-mui-speeddial/-/react-mui-speeddial-0.0.5.tgz#7cb418a2c673fe3787f28ab0c006ef2a5d9eb0a2"
+
 react-router@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-3.0.0.tgz#3f313e4dbaf57048c48dd0a8c3cac24d93667dff"
