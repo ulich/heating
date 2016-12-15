@@ -2,7 +2,6 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import {observer} from 'mobx-react';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import Icon from '../utils/Icon';
 import {store} from '../Store';
 import WeeklySetName from './WeeklySetName';
