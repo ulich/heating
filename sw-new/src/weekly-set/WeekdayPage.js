@@ -4,10 +4,10 @@ import {observer} from 'mobx-react';
 import Divider from 'material-ui/Divider';
 import TimePicker from 'material-ui/TimePicker';
 import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import LoadingAwareAppBar from '../utils/LoadingAwareAppBar';
 import BackButton from '../utils/BackButton';
+import Icon from '../utils/Icon';
 import {padTo2} from '../utils/StringUtils';
 import {store} from '../Store';
 import {mondayFirst, weekdayNames} from './Weekday';
@@ -67,7 +67,7 @@ function WeekdayPage({router}) {
             {heatingTimes.map(renderHeatingTime)}
 
             <FloatingActionButton onClick={addHeatingTime} style={{ position: 'fixed', bottom: 30, right: 30 }}>
-                <FontIcon className="material-icons">add</FontIcon>
+                <Icon name="add" />
             </FloatingActionButton>
         </div>
     )

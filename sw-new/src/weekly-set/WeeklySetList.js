@@ -2,8 +2,8 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import {observer} from 'mobx-react';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
+import Icon from '../utils/Icon';
 import {store} from '../Store';
 import WeeklySetName from './WeeklySetName';
 
@@ -29,12 +29,12 @@ function WeeklySetList({weeklyConfig, router}) {
         <div style={{ margin: 10, color: '#777' }}>
             <div style={{display: 'flex', alignItems: 'center', fontSize: 14, marginBottom: 20}}>
                 <div style={{ flex: '1 1'}}>
-                    <FontIcon className="material-icons" style={{ fontSize: 14, marginRight: 5 }}>event_note</FontIcon>
+                    <Icon name="event_note" style={{ fontSize: 14, marginRight: 5 }} />
                     Wochen-Konfigurationen
                 </div>
                 <div style={{ flex: '0 0'}}>
                     <RaisedButton onClick={showWeeklySetsPage}
-                                  icon={<FontIcon className="material-icons">create</FontIcon>}
+                                  icon={<Icon name="create" style={{color: 'white'}} />}
                                   primary={true}
                                   style={{ minWidth: 50 }} />
                 </div>
