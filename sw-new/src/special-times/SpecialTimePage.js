@@ -5,6 +5,7 @@ import Divider from 'material-ui/Divider';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
+import RaisedButton from 'material-ui/RaisedButton';
 import LoadingAwareAppBar from '../utils/LoadingAwareAppBar';
 import BackButton from '../utils/BackButton';
 import {store} from '../Store';
@@ -31,13 +32,13 @@ function WeeklySetPage({router}) {
         return true
     }
 
-    // const deleteSpecialTime = () => {
-    //     if (confirm("Wirklich löschen?")) {
-    //         store.deleteWeeklySet(weeklySet)
-    //         onPageLeave()
-    //         router.push(`/sets`)
-    //     }
-    // }
+    const deleteSpecialTime = () => {
+        if (confirm("Wirklich löschen?")) {
+            store.deleteSpecialTime(specialTimeIndex)
+            onPageLeave()
+            router.push(`/`)
+        }
+    }
 
     return (
         <div>
@@ -55,6 +56,13 @@ function WeeklySetPage({router}) {
             <Labeled label="Bis">
                 <FromToInput name="stop" specialTime={specialTime} />
             </Labeled>
+
+            <section style={{margin: '30px 15px 5px 15px'}}>
+                <RaisedButton onClick={deleteSpecialTime}
+                              label="Löschen"
+                              secondary={true}
+                              fullWidth={true} />
+            </section>
         </div>
     )
 }

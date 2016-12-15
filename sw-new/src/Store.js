@@ -81,6 +81,10 @@ class Store {
         this.config.weekly.sets.splice(i, 1)
     }
 
+    deleteSpecialTime(index) {
+        this.config.specials.splice(index, 1)
+    }
+
     saveConfigIfChanged(config) {
         if (this.hasUnsavedChanges()) {
             config = config || toJS(this.config) 
