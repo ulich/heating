@@ -53,10 +53,10 @@ function SpecialTimes({specialTimes, router}) {
             <List>
                 {specialTimes.map(renderListItem)}
             </List>
-            <div style={{ position: 'absolute', bottom: 30, right: 30 }}>
+            <div style={{ position: 'fixed', bottom: 30, right: 30 }}>
                 <SpeedDial fabContentOpen={<Icon name="add" />} effect="slide">
                     <SpeedDialItem fabContent={<Icon name="beach_access" />}
-                                   label="Spezielle Heizzeit"
+                                   label={<div style={{ background: 'white', padding: 10, border: '1px solid grey', borderRadius: 5 }}>Spezielle Heizzeit</div>}
                                    onTouchTap={addSpecialHeatingTime} />
                 </SpeedDial>
             </div>
