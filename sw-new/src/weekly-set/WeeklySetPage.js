@@ -41,14 +41,14 @@ function WeeklySetPage({router}) {
         if (confirm("Wirklich löschen?")) {
             store.deleteWeeklySet(weeklySet)
             onPageLeave()
-            router.push(`/sets`)
+            router.push(`/`)
         }
     }
 
     return (
         <div>
             <LoadingAwareAppBar title={<WeeklySetName name={weeklySet.name} />}
-                                iconElementLeft={<BackButton route="/sets" confirm={confirmBackPress} />} />
+                                iconElementLeft={<BackButton route="/" confirm={confirmBackPress} />} />
 
             <section style={{margin: '5px 15px 30px 15px'}}>
                 <TextField value={weeklySet.name}

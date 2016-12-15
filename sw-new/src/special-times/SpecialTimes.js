@@ -3,7 +3,6 @@ import {withRouter} from 'react-router';
 import {observer} from 'mobx-react';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import {SpeedDial, SpeedDialItem} from 'react-mui-speeddial';
 import {store} from '../Store';
 import HeatingStatus from '../heating-status/HeatingStatus';
 import Icon from '../utils/Icon';
@@ -14,13 +13,6 @@ function SpecialTimes({specialTimes, router}) {
     store.autoSave = true
 
     const showSpecialTimesPage = (index) => {
-        router.push(`/specials/${index}`)
-    }
-
-    const addSpecialHeatingTime = () => {
-        store.autoSave = false
-        const index = store.addSpecialHeatingTime()
-
         router.push(`/specials/${index}`)
     }
 
@@ -45,7 +37,7 @@ function SpecialTimes({specialTimes, router}) {
     }
 
     return (
-        <div style={{ color: '#777', marginTop: 50 }}>
+        <div style={{ color: '#777' }}>
             <div style={{ margin: '10px 10px 0 10px', fontSize: 14}}>
                 <Icon name="beach_access" style={{ fontSize: 14, marginRight: 5 }} />
                 Spezielle Heizzeiten
@@ -53,13 +45,6 @@ function SpecialTimes({specialTimes, router}) {
             <List>
                 {specialTimes.map(renderListItem)}
             </List>
-            <div style={{ position: 'fixed', bottom: 30, right: 30 }}>
-                <SpeedDial fabContentOpen={<Icon name="add" />} effect="slide">
-                    <SpeedDialItem fabContent={<Icon name="beach_access" />}
-                                   label={<div style={{ background: 'white', padding: 10, border: '1px solid grey', borderRadius: 5 }}>Spezielle Heizzeit</div>}
-                                   onTouchTap={addSpecialHeatingTime} />
-                </SpeedDial>
-            </div>
         </div>
     )
 }

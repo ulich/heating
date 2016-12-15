@@ -15,14 +15,8 @@ function WeeklySetList({weeklyConfig, router}) {
         weeklyConfig.activeSet = i
     }
 
-    const showWeeklySetsPage = () => {
-        router.push('/sets')
-    }
-
-    const renderListItem = (set, i) => {
-        return (
-            <RadioButton key={i} value={i} label={<WeeklySetName name={set.name} />} style={{ marginBottom: 30, paddingLeft: 20, width: 'auto', whiteSpace: 'nowrap' }}></RadioButton>
-        )
+    const showWeeklySetPage = (index) => {
+        router.push(`/sets/${index}`)
     }
 
     return (
@@ -32,18 +26,31 @@ function WeeklySetList({weeklyConfig, router}) {
                     <Icon name="event_note" style={{ fontSize: 14, marginRight: 5 }} />
                     Wochen-Konfigurationen
                 </div>
-                <div style={{ flex: '0 0'}}>
-                    <RaisedButton onClick={showWeeklySetsPage}
-                                  icon={<Icon name="create" style={{color: 'white'}} />}
-                                  primary={true}
-                                  style={{ minWidth: 50 }} />
+            </div>
+            
+            <div style={{display: 'flex'}}>
+                <RadioButtonGroup name="activeSet"
+                                  valueSelected={weeklyConfig.activeSet}
+                                  onChange={(e, value) => selectSet(value)}
+                                  style={{flex: '1 1'}}>
+                    {weeklyConfig.sets.map((set, i) =>
+                        <RadioButton key={i}
+                                     value={i}
+                                     label={<WeeklySetName name={set.name} />}
+                                     style={{ marginBottom: 30, paddingLeft: 20, width: 'auto', whiteSpace: 'nowrap' }}>
+                        </RadioButton>
+                    )}
+                </RadioButtonGroup>
+
+                <div>
+                    {weeklyConfig.sets.map((set, i) => 
+                        <Icon key={i} name="create"
+                              style={{ display: 'block', margin: '0 10px 30px 0' }}
+                              onClick={() => showWeeklySetPage(i)}/>
+                    )}
                 </div>
             </div>
-            <RadioButtonGroup name="activeSet"
-                              valueSelected={weeklyConfig.activeSet}
-                              onChange={(e, value) => selectSet(value)}>
-                {weeklyConfig.sets.map(renderListItem)}
-            </RadioButtonGroup>
+
         </div>
     )
 }

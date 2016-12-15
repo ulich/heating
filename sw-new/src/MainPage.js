@@ -1,13 +1,35 @@
 import React from 'react';
+import {withRouter} from 'react-router';
 import {observer} from 'mobx-react';
+import {SpeedDial, SpeedDialItem} from 'react-mui-speeddial';
 import LoadingAwareAppBar from './utils/LoadingAwareAppBar';
 import WeeklySetList from './weekly-set/WeeklySetList';
 import SpecialTimes from './special-times/SpecialTimes';
 import HeatingStatus from './heating-status/HeatingStatus';
+import Icon from './utils/Icon';
 import {store} from './Store';
 
 
-function MainPage() {
+function MainPage({router}) {
+
+    const addWeeklySet = (e) => {
+        e.preventDefault()
+
+        store.autoSave = false
+        const index = store.addWeeklySet()
+
+        router.push(`/sets/${index}`)
+    }
+
+    const addSpecialHeatingTime = (e) => {
+        e.preventDefault()
+
+        store.autoSave = false
+        const index = store.addSpecialHeatingTime()
+
+        router.push(`/specials/${index}`)
+    }
+
     const content = () => {
         if (!store.loaded) {
             return null
@@ -16,6 +38,18 @@ function MainPage() {
                 <div>
                     <WeeklySetList weeklyConfig={store.config.weekly} />
                     <SpecialTimes specialTimes={store.config.specials} />
+
+                    <div style={{ position: 'fixed', bottom: 30, right: 30 }}>
+                        <SpeedDial fabContentOpen={<Icon name="add" />} effect="slide">
+                            <SpeedDialItem fabContent={<Icon name="beach_access" />}
+                                           label={<SpeedDialLabel label="Neue spezielle Heizzeit" />}
+                                           onTouchTap={addSpecialHeatingTime} />
+
+                            <SpeedDialItem fabContent={<Icon name="event_note" />}
+                                           label={<SpeedDialLabel label="Neue wochen Konfiguration" />}
+                                           onTouchTap={addWeeklySet} />
+                        </SpeedDial>
+                    </div>
                 </div>
             )
         }
@@ -28,7 +62,7 @@ function MainPage() {
         </div>
     )
 }
-export default observer(MainPage)
+export default withRouter(observer(MainPage))
 
 
 function MainHeatingStatus() {
@@ -38,3 +72,6 @@ function MainHeatingStatus() {
         return null
     }
 }
+
+const SpeedDialLabel = ({label}) =>
+    <div style={{ background: 'white', padding: 10, border: '1px solid #ddd', borderRadius: 5 }}>{label}</div>
