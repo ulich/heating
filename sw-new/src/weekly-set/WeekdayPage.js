@@ -8,6 +8,7 @@ import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import LoadingAwareAppBar from '../utils/LoadingAwareAppBar';
 import BackButton from '../utils/BackButton';
+import {padTo2} from '../utils/StringUtils';
 import {store} from '../Store';
 import {mondayFirst, weekdayNames} from './Weekday';
 
@@ -78,12 +79,8 @@ function HeatingTime({time, name}) {
     const [hour, minute] = time[name].split(':')
     const date = new Date(0, 0, 0, parseInt(hour, 10), parseInt(minute, 10), 0)
 
-    const padTime = (value) => {
-        return (value < 10) ? ('0' + value) : value
-    }
-
     const onChange = (e, newDate) => {
-        time[name] = `${padTime(newDate.getHours())}:${padTime(newDate.getMinutes())}`
+        time[name] = `${padTo2(newDate.getHours())}:${padTo2(newDate.getMinutes())}`
     }
 
     return (

@@ -6,20 +6,22 @@ import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import {store} from '../Store';
 import HeatingStatus from '../heating-status/HeatingStatus';
+import {padTo2} from '../utils/StringUtils';
 
 function SpecialTimes({specialTimes, router}) {
 
     store.autoSave = true
 
-    const showSpecialTimesPage = () => {
-        router.push('/specials')
+    const showSpecialTimesPage = (index) => {
+        router.push(`/specials/${index}`)
     }
 
     const renderListItem = (special, index) => {
         return (
             <div key={index}>
                 {(index === 0) ? null : <Divider />}
-                <ListItem rightIcon={<FontIcon className="material-icons">create</FontIcon>}>
+                <ListItem onClick={() => showSpecialTimesPage(index)}
+                          rightIcon={<FontIcon className="material-icons">create</FontIcon>}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div style={{ flex: '0 0', marginRight: 20 }}>
                             <HeatingStatus enabled={special.enabled} />
@@ -52,15 +54,11 @@ export default withRouter(observer(SpecialTimes))
 function formatDate(timestamp) {
     const d = new Date(timestamp)
 
-    return pad(d.getUTCDate()) + '.'
-        + pad(d.getUTCMonth()+1) + '.'
-        + d.getUTCFullYear() + ' '
-        + pad(d.getUTCHours()) + ':'
-        + pad(d.getUTCMinutes()) + ' Uhr'
-}
-
-function pad(n) {
-    return (n < 10) ? ('0'+n) : n
+    return padTo2(d.getDate()) + '.'
+        + padTo2(d.getMonth()+1) + '.'
+        + d.getFullYear() + ' '
+        + padTo2(d.getHours()) + ':'
+        + padTo2(d.getMinutes()) + ' Uhr'
 }
 
 const FromTo = ({ label, children }) => 

@@ -5,6 +5,7 @@ import LoginPage from './LoginPage';
 import WeeklySetsPage from './weekly-set/WeeklySetsPage';
 import WeeklySetPage from './weekly-set/WeeklySetPage';
 import WeekdayPage from './weekly-set/WeekdayPage';
+import SpecialTimePage from './special-times/SpecialTimePage';
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/sets" component={WeeklySetsPage} />
             <Route path="/sets/:weeklySetIndex" component={WeeklySetPage} />
             <Route path="/sets/:weeklySetIndex/weekdays/:weekdayIndex" component={WeekdayPage} />
+            <Route path="/specials/:specialTimeIndex" component={SpecialTimePage} />
             <Redirect from="/**" to="/" />
         </Router>
     )
