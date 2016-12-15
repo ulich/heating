@@ -1,15 +1,14 @@
-OUTDIR=$PWD/build
-WWWOUT=$OUTDIR/www/heating
-OUT=$PWD/heating.tar.gz
-OVERLAY=$PWD/src/overlay
+rm -rf build
+rm heating.tar.gz
+mkdir -p build/www/heating
 
-rm -rf $OUT $OUTDIR
-r.js -o build.js
-if [ "$?" -eq 0 ]; then
-    cd build
-    rm $WWWOUT/build.txt
-    rm -rf $WWWOUT/partials
-    cp -r $OVERLAY/* $OUTDIR
-    tar czf $OUT * --no-same-owner
-    cd ..
-fi
+cd app
+npm run build
+cd ..
+mv app/build/* build/www/heating
+
+find build -name "*.map" -exec rm -rf {} \;
+
+cp -r overlay/* build
+cd build
+tar czf ../heating.tar.gz *
