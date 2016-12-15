@@ -57,7 +57,7 @@ function WeeklySetPage({router}) {
                 <FromToInput name="stop" specialTime={specialTime} />
             </Labeled>
 
-            <section style={{margin: '30px 15px 5px 15px'}}>
+            <section style={{margin: '100px 15px 5px 15px'}}>
                 <RaisedButton onClick={deleteSpecialTime}
                               label="Löschen"
                               secondary={true}
