@@ -7,7 +7,7 @@ var app = express()
 
 app.use(morgan('dev'))
 app.use(bodyParser.json())
-app.use(express.static('../sw/src/app'))
+app.use(express.static('../sw/app/build'))
 app.use(basicAuth('root', 'secret'));
 
 const state = {
@@ -84,6 +84,7 @@ function response(body) {
     }
 }
 
-app.listen(4000, function () {
-    console.log('Example app listening on port 3000!')
+const port = process.env.PORT || 4000
+app.listen(port, function () {
+    console.log('Example app listening on port ' + port)
 })
