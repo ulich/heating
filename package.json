@@ -4,6 +4,7 @@
   "description": "This package.json is only used by heroku for building the react app and then launching the mock-server",
   "private": true,
   "scripts": {
-    "start": "cd sw/app && yarn install && npm run build && cd ../.. && cd mock-server && yarn install && node mock-server.js"
+    "postinstall": "cd sw/app && yarn install && npm run build && cd ../.. && cd mock-server && yarn install && cd ..",
+    "start": "cd mock-server && node mock-server.js"
   }
 }
