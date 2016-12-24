@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "This package.json is only used by heroku for building the react app and then launching the mock-server",
   "private": true,
+  "devDependencies": {
+    "yarn": "^0.18.1"
+  },
   "scripts": {
     "postinstall": "cd sw/app && yarn install && npm run build && cd ../.. && cd mock-server && yarn install && cd ..",
     "start": "cd mock-server && node mock-server.js"
