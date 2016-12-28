@@ -56,7 +56,7 @@ setInterval(() => {
     state.status.enabled = state.config.weekly.activeSet !== 1
 }, 1000 * 5)
 
-app.post('/api.lua', function (req, res) {
+app.post('/heating/api.lua', function (req, res) {
     setTimeout(() => {
         switch (req.body.cmd) {
             case 'getConfigAndStatus':

@@ -16,7 +16,7 @@ export default class Backend {
     }
 
     request(cmd, params) {
-        return fetch('/api.lua', {
+        return fetch('/heating/api.lua', {
             method: 'POST',
             body: JSON.stringify({ cmd, params }),
             headers: new Headers({
