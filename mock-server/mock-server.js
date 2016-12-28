@@ -8,7 +8,7 @@ var app = express()
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(express.static('../sw/app/build'))
-app.use(basicAuth('root', 'secret'));
+//app.use(basicAuth('root', 'secret'));
 
 const state = {
     config: {
