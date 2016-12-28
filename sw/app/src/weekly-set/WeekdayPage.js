@@ -62,7 +62,7 @@ function WeekdayPage({router}) {
     return (
         <div>
             <LoadingAwareAppBar title={weekdayNames[weekdayIndex]}
-                                iconElementLeft={<BackButton route={`/sets/${weeklySetIndex}`} confirm={confirmBackPress} />} />
+                                iconElementLeft={<BackButton route={`/settings/sets/${weeklySetIndex}`} confirm={confirmBackPress} />} />
 
             {heatingTimes.map(renderHeatingTime)}
 

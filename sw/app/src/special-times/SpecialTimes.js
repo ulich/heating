@@ -13,7 +13,7 @@ function SpecialTimes({specialTimes, router}) {
     store.autoSave = true
 
     const showSpecialTimesPage = (index) => {
-        router.push(`/specials/${index}`)
+        router.push(`/settings/specials/${index}`)
     }
 
     const renderListItem = (special, index) => {

@@ -15,7 +15,7 @@ function WeeklySetList({weeklyConfig, router}) {
     }
 
     const showWeeklySetPage = (index) => {
-        router.push(`/sets/${index}`)
+        router.push(`/settings/sets/${index}`)
     }
 
     return (

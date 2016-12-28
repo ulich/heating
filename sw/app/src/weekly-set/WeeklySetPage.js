@@ -34,21 +34,21 @@ function WeeklySetPage({router}) {
     }
 
     const showWeekdayPage = (weekdayIndex) => {
-        router.push(`/sets/${weeklySetIndex}/weekdays/${weekdayIndex}`)
+        router.push(`/settings/sets/${weeklySetIndex}/weekdays/${weekdayIndex}`)
     }
 
     const deleteWeeklySet = () => {
         if (confirm("Wirklich löschen?")) {
             store.deleteWeeklySet(weeklySet)
             onPageLeave()
-            router.push(`/`)
+            router.push(`/settings`)
         }
     }
 
     return (
         <div>
             <LoadingAwareAppBar title={<WeeklySetName name={weeklySet.name} />}
-                                iconElementLeft={<BackButton route="/" confirm={confirmBackPress} />} />
+                                iconElementLeft={<BackButton route="/settings" confirm={confirmBackPress} />} />
 
             <section style={{margin: '5px 15px 30px 15px'}}>
                 <TextField value={weeklySet.name}
