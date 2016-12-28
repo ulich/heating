@@ -36,14 +36,14 @@ function WeeklySetPage({router}) {
         if (confirm("Wirklich löschen?")) {
             store.deleteSpecialTime(specialTimeIndex)
             onPageLeave()
-            router.push(`/`)
+            router.push(`/settings`)
         }
     }
 
     return (
         <div>
             <LoadingAwareAppBar title={`Spezielle Heizzeit ${specialTimeIndex + 1}`}
-                                iconElementLeft={<BackButton route="/" confirm={confirmBackPress} />} />
+                                iconElementLeft={<BackButton route="/settings" confirm={confirmBackPress} />} />
 
             <Labeled label="Heizung">
                 <OnOffInput specialTime={specialTime} />
