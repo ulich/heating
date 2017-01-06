@@ -111,6 +111,7 @@ class Store {
             .then((response) => {
                 this.loading = false
                 this.savedConfig = response.config
+                this.status.enabled = response.status.enabled
             })
             .catch(this.handleError.bind(this))
     }
