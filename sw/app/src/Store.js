@@ -1,6 +1,7 @@
 import {extendObservable, reaction, toJS} from 'mobx';
 import {hashHistory} from 'react-router';
 import {backend} from './Backend';
+import {getNextHeatingTriggerDate} from './HeatingCalendar';
 
 class Store {
 
@@ -51,10 +52,14 @@ class Store {
 
     pollStatus() {
         setInterval(() => {
-            backend.getStatus().then((response) => {
-                this.status.enabled = response.enabled
-            })
+            this.updateStatusFromServer()
         }, 10 * 1000)
+    }
+
+    updateStatusFromServer() {
+        backend.getStatus().then((response) => {
+            this.status.enabled = response.enabled
+        })
     }
 
     addWeeklySet() {
@@ -93,6 +98,16 @@ class Store {
 
     deleteSpecialTime(index) {
         this.config.specials.splice(index, 1)
+    }
+
+    enableHeatingUntilNextTrigger() {
+        this.config.specials.push({
+            enabled: true,
+            start: new Date().getTime(),
+            stop: getNextHeatingTriggerDate(this.config)
+        })
+
+        this.saveConfigIfChanged()
     }
 
     saveConfigIfChanged(config) {
