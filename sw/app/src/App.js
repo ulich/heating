@@ -15,7 +15,7 @@ function App() {
             <Route path="/settings" component={SettingsPage} />
             <Route path="/settings/sets/:weeklySetIndex" component={WeeklySetPage} />
             <Route path="/settings/sets/:weeklySetIndex/weekdays/:weekdayIndex" component={WeekdayPage} />
-            <Route path="/settings/specials/:specialTimeIndex" component={SpecialTimePage} />
+            <Route path="/settings/specials/:id" component={SpecialTimePage} />
             <Redirect from="/**" to="/" />
         </Router>
     )

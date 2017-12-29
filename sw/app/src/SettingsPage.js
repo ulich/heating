@@ -25,9 +25,9 @@ function SettingsPage({router}) {
         e.preventDefault()
 
         store.autoSave = false
-        const index = store.addSpecialHeatingTime()
+        const id = store.addSpecialHeatingTime()
 
-        router.push(`/settings/specials/${index}`)
+        router.push(`/settings/specials/${id}`)
     }
 
     const content = () => {

@@ -15,12 +15,11 @@ function WeeklySetPage({router}) {
 
     store.autoSave = false
 
-    const specialTimeIndex = parseInt(router.params.specialTimeIndex, 10)
-    if (specialTimeIndex >= store.config.specials.length) {
+    const id = parseInt(router.params.id, 10)
+    const specialTime = store.config.specials.find(s => s.id === id)
+    if (!specialTime) {
         return null
     }
-
-    const specialTime = store.config.specials[specialTimeIndex]
 
     const onPageLeave = () => {
         store.saveConfigIfChanged()
@@ -34,7 +33,7 @@ function WeeklySetPage({router}) {
 
     const deleteSpecialTime = () => {
         if (confirm("Wirklich löschen?")) {
-            store.deleteSpecialTime(specialTimeIndex)
+            store.deleteSpecialTime(id)
             onPageLeave()
             router.push(`/settings`)
         }
@@ -42,7 +41,7 @@ function WeeklySetPage({router}) {
 
     return (
         <div>
-            <LoadingAwareAppBar title={`Spezielle Heizzeit ${specialTimeIndex + 1}`}
+            <LoadingAwareAppBar title="Spezielle Heizzeit"
                                 iconElementLeft={<BackButton route="/settings" confirm={confirmBackPress} />} />
 
             <Labeled label="Heizung">
