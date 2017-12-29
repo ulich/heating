@@ -5,7 +5,6 @@ import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import LoadingAwareAppBar from './utils/LoadingAwareAppBar';
-import HeatingStatus from './heating-status/HeatingStatus';
 import {store} from './Store';
 import {getNextHeatingTriggerDate} from './HeatingCalendar';
 
