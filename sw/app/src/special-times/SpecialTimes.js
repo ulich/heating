@@ -43,7 +43,7 @@ function SpecialTimes({specialTimes, router}) {
                 Spezielle Heizzeiten
             </div>
             <List>
-                {specialTimes.map(renderListItem)}
+                {specialTimes.sort((a, b) => a.start - b.start).map(renderListItem)}
             </List>
         </div>
     )
