@@ -2,7 +2,7 @@
 export function getNextHeatingTriggerDate(config) {
     const {weekdays} = config.weekly.sets[config.weekly.activeSet]
     
-    const now = Date.now()
+    const now = new Date(Date.now())
     const startOfToday = startOfDay(now)
 
     for (let i = 0; i < 8; i++) {
