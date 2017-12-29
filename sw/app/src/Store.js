@@ -114,6 +114,9 @@ class Store {
     }
 
     saveConfig(config) {
+        // remove old special heating times
+        config.specials = config.specials.filter(s => s.stop > Date.now())
+
         console.log('Saving', config)
 
         this.loading = true
