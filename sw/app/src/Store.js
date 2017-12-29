@@ -99,11 +99,11 @@ class Store {
         this.config.specials.splice(index, 1)
     }
 
-    enableHeatingUntil(date) {
+    enableHeatingUntil(timestamp) {
         this.config.specials.push({
             enabled: true,
             start: new Date().getTime(),
-            stop: date
+            stop: timestamp
         })
 
         this.saveConfigIfChanged()
