@@ -36,6 +36,10 @@ function SpecialTimes({specialTimes, router}) {
         )
     }
 
+    const specials = specialTimes
+            .filter(s => s.stop > Date.now())
+            .sort((a, b) => a.start - b.start)
+
     return (
         <div style={{ color: '#777' }}>
             <div style={{ margin: '10px 10px 0 10px', fontSize: 14}}>
@@ -43,7 +47,7 @@ function SpecialTimes({specialTimes, router}) {
                 Spezielle Heizzeiten
             </div>
             <List>
-                {specialTimes.sort((a, b) => a.start - b.start).map(renderListItem)}
+                {specials.map(renderListItem)}
             </List>
         </div>
     )
