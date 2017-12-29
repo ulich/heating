@@ -12,15 +12,15 @@ function SpecialTimes({specialTimes, router}) {
 
     store.autoSave = true
 
-    const showSpecialTimesPage = (index) => {
-        router.push(`/settings/specials/${index}`)
+    const showSpecialTimesPage = (special) => {
+        router.push(`/settings/specials/${special.id}`)
     }
 
     const renderListItem = (special, index) => {
         return (
-            <div key={index}>
+            <div key={special.id}>
                 {(index === 0) ? null : <Divider />}
-                <ListItem onClick={() => showSpecialTimesPage(index)}
+                <ListItem onClick={() => showSpecialTimesPage(special)}
                           rightIcon={<Icon name="create" />}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div style={{ flex: '0 0', marginRight: 20 }}>
