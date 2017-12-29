@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import LoadingAwareAppBar from './utils/LoadingAwareAppBar';
 import HeatingStatus from './heating-status/HeatingStatus';
 import {store} from './Store';
+import {getNextHeatingTriggerDate} from './HeatingCalendar';
 
 
 function MainPage({router}) {
@@ -54,7 +55,15 @@ export default withRouter(observer(MainPage))
 
 
 const ActivationButton = observer(() => {
-    if (!store.status.enabled) {
-        return <RaisedButton label="Vorübergehend einschalten" disabled={store.loading} onClick={() => store.enableHeatingUntilNextTrigger()} />
+    const nextTrigger = getNextHeatingTriggerDate(store.config)
+
+    const enable = () => {
+        store.enableHeatingUntil(nextTrigger)
+    }
+
+    if (!store.status.enabled && nextTrigger) {
+        return <RaisedButton label="Vorübergehend einschalten" disabled={store.loading} onClick={enable} />
+    } else {
+        return null
     }
 })

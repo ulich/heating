@@ -1,7 +1,6 @@
 import {extendObservable, reaction, toJS} from 'mobx';
 import {hashHistory} from 'react-router';
 import {backend} from './Backend';
-import {getNextHeatingTriggerDate} from './HeatingCalendar';
 
 class Store {
 
@@ -100,11 +99,11 @@ class Store {
         this.config.specials.splice(index, 1)
     }
 
-    enableHeatingUntilNextTrigger() {
+    enableHeatingUntil(date) {
         this.config.specials.push({
             enabled: true,
             start: new Date().getTime(),
-            stop: getNextHeatingTriggerDate(this.config)
+            stop: date
         })
 
         this.saveConfigIfChanged()
