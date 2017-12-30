@@ -85,11 +85,11 @@ class Store {
         this.config.weekly.sets.splice(i, 1)
     }
 
-    addSpecialHeatingTime(start = Date.now(), stop = Date.now() + 1000 * 60 * 60 * 24) {
+    addSpecialHeatingTime(enabled = false, start = Date.now(), stop = Date.now() + 1000 * 60 * 60 * 24) {
         const id = Date.now()
         this.config.specials.push({
             id,
-            enabled: false,
+            enabled,
             start,
             stop
         })
@@ -101,7 +101,7 @@ class Store {
     }
 
     enableHeatingUntil(timestamp) {
-        this.addSpecialHeatingTime(new Date().getTime(), timestamp)
+        this.addSpecialHeatingTime(true, new Date().getTime(), timestamp)
 
         this.saveConfigIfChanged()
     }
